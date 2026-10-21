@@ -1,0 +1,331 @@
+{
+  "decisions": [
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.dim_account",
+      "source": "dw.dim_account",
+      "table_purposes": [],
+      "purpose_match": false,
+      "dropped": [
+        "account_number"
+      ],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.dim_branch",
+      "source": "dw.dim_branch",
+      "table_purposes": [],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.dim_consent",
+      "source": "dw.dim_consent",
+      "table_purposes": [
+        "Analytics",
+        "Marketing"
+      ],
+      "purpose_match": true,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": true
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.dim_customer",
+      "source": "dw.dim_customer",
+      "table_purposes": [
+        "Analytics"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [
+        "full_name",
+        "email"
+      ],
+      "consent_row_filter": false
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.dim_date",
+      "source": "dw.dim_date",
+      "table_purposes": [],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.fact_transaction",
+      "source": "dw.fact_transaction",
+      "table_purposes": [
+        "Analytics",
+        "FraudPrevention"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.aml_large_cash_txn",
+      "source": "mart.aml_large_cash_txn",
+      "table_purposes": [
+        "RegulatoryReporting"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [
+        "full_name",
+        "date_of_birth"
+      ],
+      "consent_row_filter": false
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.marketing_campaign_audience",
+      "source": "mart.marketing_campaign_audience",
+      "table_purposes": [
+        "Marketing"
+      ],
+      "purpose_match": true,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": true
+    },
+    {
+      "role": "marketing_analyst",
+      "view": "governed_marketing_analyst.monthly_branch_activity",
+      "source": "mart.monthly_branch_activity",
+      "table_purposes": [
+        "Analytics"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.dim_account",
+      "source": "dw.dim_account",
+      "table_purposes": [],
+      "purpose_match": false,
+      "dropped": [
+        "account_number"
+      ],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.dim_branch",
+      "source": "dw.dim_branch",
+      "table_purposes": [],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.dim_consent",
+      "source": "dw.dim_consent",
+      "table_purposes": [
+        "Analytics",
+        "Marketing"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.dim_customer",
+      "source": "dw.dim_customer",
+      "table_purposes": [
+        "Analytics"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [
+        "full_name",
+        "email"
+      ],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.dim_date",
+      "source": "dw.dim_date",
+      "table_purposes": [],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.fact_transaction",
+      "source": "dw.fact_transaction",
+      "table_purposes": [
+        "Analytics",
+        "FraudPrevention"
+      ],
+      "purpose_match": true,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.aml_large_cash_txn",
+      "source": "mart.aml_large_cash_txn",
+      "table_purposes": [
+        "RegulatoryReporting"
+      ],
+      "purpose_match": true,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.marketing_campaign_audience",
+      "source": "mart.marketing_campaign_audience",
+      "table_purposes": [
+        "Marketing"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [
+        "full_name",
+        "email"
+      ],
+      "consent_row_filter": false
+    },
+    {
+      "role": "fraud_analyst",
+      "view": "governed_fraud_analyst.monthly_branch_activity",
+      "source": "mart.monthly_branch_activity",
+      "table_purposes": [
+        "Analytics"
+      ],
+      "purpose_match": false,
+      "dropped": [],
+      "pseudonymised": [],
+      "consent_row_filter": false
+    }
+  ],
+  "checks": [
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT email FROM governed_marketing_analyst.dim_customer LIMIT 1",
+      "result": "OK: 8b7f5bedf2070d5e7020ff80..."
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT email FROM governed_marketing_analyst.marketing_campaign_audience LIMIT 1",
+      "result": "OK: gabriel.paquette1@exampl..."
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT count(*) FROM governed_marketing_analyst.marketing_campaign_audience",
+      "result": "OK: 556..."
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT email FROM dw.dim_customer LIMIT 1",
+      "result": "DENIED/ERROR: permission denied for schema dw"
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT full_name FROM governed_marketing_analyst.aml_large_cash_txn LIMIT 1",
+      "result": "OK: 0f19267e69db658a3df0e443..."
+    },
+    {
+      "role": "fraud_analyst",
+      "query": "SELECT full_name FROM governed_fraud_analyst.aml_large_cash_txn LIMIT 1",
+      "result": "OK: Emma Ahmed..."
+    },
+    {
+      "role": "fraud_analyst",
+      "query": "SELECT account_number FROM governed_fraud_analyst.dim_account LIMIT 1",
+      "result": "DENIED/ERROR: column \"account_number\" does not exist"
+    }
+  ],
+  "sql": [
+    "REVOKE ALL ON ALL TABLES IN SCHEMA dw, mart FROM marketing_analyst",
+    "REVOKE USAGE ON SCHEMA dw, mart FROM marketing_analyst",
+    "GRANT CONNECT ON DATABASE bank_dw TO marketing_analyst",
+    "CREATE SCHEMA IF NOT EXISTS governed_marketing_analyst",
+    "GRANT USAGE ON SCHEMA governed_marketing_analyst TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.dim_account",
+    "CREATE VIEW governed_marketing_analyst.dim_account AS SELECT account_key, account_id, customer_key, account_type, account_status, opened_on FROM dw.dim_account",
+    "GRANT SELECT ON governed_marketing_analyst.dim_account TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.dim_branch",
+    "CREATE VIEW governed_marketing_analyst.dim_branch AS SELECT branch_key, transit_number, branch_name, city, province FROM dw.dim_branch",
+    "GRANT SELECT ON governed_marketing_analyst.dim_branch TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.dim_consent",
+    "CREATE VIEW governed_marketing_analyst.dim_consent AS SELECT customer_key, purpose, granted, consent_type, captured_on, withdrawn_on FROM dw.dim_consent WHERE EXISTS (SELECT 1 FROM dw.dim_consent dc WHERE dc.customer_key = dw.dim_consent.customer_key AND dc.purpose = 'MARKETING_EMAIL' AND dc.granted AND dc.withdrawn_on IS NULL)",
+    "GRANT SELECT ON governed_marketing_analyst.dim_consent TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.dim_customer",
+    "CREATE VIEW governed_marketing_analyst.dim_customer AS SELECT customer_key, customer_id, md5(full_name::text) AS full_name, md5(email::text) AS email, birth_year, age_band, province, postal_fsa, income_band, customer_status, customer_since, closed_on FROM dw.dim_customer",
+    "GRANT SELECT ON governed_marketing_analyst.dim_customer TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.dim_date",
+    "CREATE VIEW governed_marketing_analyst.dim_date AS SELECT date_key, full_date, year, quarter, month, day_of_week FROM dw.dim_date",
+    "GRANT SELECT ON governed_marketing_analyst.dim_date TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.fact_transaction",
+    "CREATE VIEW governed_marketing_analyst.fact_transaction AS SELECT transaction_key, date_key, account_key, customer_key, branch_key, amount_cad, txn_type, channel, merchant_category FROM dw.fact_transaction",
+    "GRANT SELECT ON governed_marketing_analyst.fact_transaction TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.aml_large_cash_txn",
+    "CREATE VIEW governed_marketing_analyst.aml_large_cash_txn AS SELECT transaction_key, customer_key, md5(full_name::text) AS full_name, md5(date_of_birth::text) AS date_of_birth, occupation, amount_cad, txn_date, branch_transit FROM mart.aml_large_cash_txn",
+    "GRANT SELECT ON governed_marketing_analyst.aml_large_cash_txn TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.marketing_campaign_audience",
+    "CREATE VIEW governed_marketing_analyst.marketing_campaign_audience AS SELECT customer_key, full_name, email, segment, consent_marketing, extracted_at FROM mart.marketing_campaign_audience WHERE EXISTS (SELECT 1 FROM dw.dim_consent dc WHERE dc.customer_key = mart.marketing_campaign_audience.customer_key AND dc.purpose = 'MARKETING_EMAIL' AND dc.granted AND dc.withdrawn_on IS NULL)",
+    "GRANT SELECT ON governed_marketing_analyst.marketing_campaign_audience TO marketing_analyst",
+    "DROP VIEW IF EXISTS governed_marketing_analyst.monthly_branch_activity",
+    "CREATE VIEW governed_marketing_analyst.monthly_branch_activity AS SELECT year, month, branch_key, txn_count, total_amount_cad, active_customers FROM mart.monthly_branch_activity",
+    "GRANT SELECT ON governed_marketing_analyst.monthly_branch_activity TO marketing_analyst",
+    "REVOKE ALL ON ALL TABLES IN SCHEMA dw, mart FROM fraud_analyst",
+    "REVOKE USAGE ON SCHEMA dw, mart FROM fraud_analyst",
+    "GRANT CONNECT ON DATABASE bank_dw TO fraud_analyst",
+    "CREATE SCHEMA IF NOT EXISTS governed_fraud_analyst",
+    "GRANT USAGE ON SCHEMA governed_fraud_analyst TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.dim_account",
+    "CREATE VIEW governed_fraud_analyst.dim_account AS SELECT account_key, account_id, customer_key, account_type, account_status, opened_on FROM dw.dim_account",
+    "GRANT SELECT ON governed_fraud_analyst.dim_account TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.dim_branch",
+    "CREATE VIEW governed_fraud_analyst.dim_branch AS SELECT branch_key, transit_number, branch_name, city, province FROM dw.dim_branch",
+    "GRANT SELECT ON governed_fraud_analyst.dim_branch TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.dim_consent",
+    "CREATE VIEW governed_fraud_analyst.dim_consent AS SELECT customer_key, purpose, granted, consent_type, captured_on, withdrawn_on FROM dw.dim_consent",
+    "GRANT SELECT ON governed_fraud_analyst.dim_consent TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.dim_customer",
+    "CREATE VIEW governed_fraud_analyst.dim_customer AS SELECT customer_key, customer_id, md5(full_name::text) AS full_name, md5(email::text) AS email, birth_year, age_band, province, postal_fsa, income_band, customer_status, customer_since, closed_on FROM dw.dim_customer",
+    "GRANT SELECT ON governed_fraud_analyst.dim_customer TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.dim_date",
+    "CREATE VIEW governed_fraud_analyst.dim_date AS SELECT date_key, full_date, year, quarter, month, day_of_week FROM dw.dim_date",
+    "GRANT SELECT ON governed_fraud_analyst.dim_date TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.fact_transaction",
+    "CREATE VIEW governed_fraud_analyst.fact_transaction AS SELECT transaction_key, date_key, account_key, customer_key, branch_key, amount_cad, txn_type, channel, merchant_category FROM dw.fact_transaction",
+    "GRANT SELECT ON governed_fraud_analyst.fact_transaction TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.aml_large_cash_txn",
+    "CREATE VIEW governed_fraud_analyst.aml_large_cash_txn AS SELECT transaction_key, customer_key, full_name, date_of_birth, occupation, amount_cad, txn_date, branch_transit FROM mart.aml_large_cash_txn",
+    "GRANT SELECT ON governed_fraud_analyst.aml_large_cash_txn TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.marketing_campaign_audience",
+    "CREATE VIEW governed_fraud_analyst.marketing_campaign_audience AS SELECT customer_key, md5(full_name::text) AS full_name, md5(email::text) AS email, segment, consent_marketing, extracted_at FROM mart.marketing_campaign_audience",
+    "GRANT SELECT ON governed_fraud_analyst.marketing_campaign_audience TO fraud_analyst",
+    "DROP VIEW IF EXISTS governed_fraud_analyst.monthly_branch_activity",
+    "CREATE VIEW governed_fraud_analyst.monthly_branch_activity AS SELECT year, month, branch_key, txn_count, total_amount_cad, active_customers FROM mart.monthly_branch_activity",
+    "GRANT SELECT ON governed_fraud_analyst.monthly_branch_activity TO fraud_analyst"
+  ]
+}

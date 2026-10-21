@@ -1,0 +1,1824 @@
+{
+  "summary": {
+    "columns_total": 145,
+    "truth_distribution": {
+      "N": 105,
+      "H": 7,
+      "F": 5,
+      "D": 18,
+      "Q": 10
+    },
+    "ootb_pii_sensitive": {
+      "tp": 18,
+      "fp": 3,
+      "fn": 7,
+      "tn": 117,
+      "precision": 0.857,
+      "recall": 0.72,
+      "f1": 0.783,
+      "false_positives": [
+        "core_banking.core.branch.city",
+        "core_banking.core.customer.city",
+        "bank_dw.dw.dim_branch.city"
+      ],
+      "false_negatives": [
+        "core_banking.core.account.account_number",
+        "bank_dw.mart.aml_large_cash_txn.date_of_birth",
+        "core_banking.core.customer.date_of_birth",
+        "core_banking.core.customer.postal_code",
+        "bank_dw.dw.dim_account.account_number",
+        "core_banking.kyc.identity_document.document_number",
+        "core_banking.ops.legacy_member_import.fld_03"
+      ]
+    },
+    "pipeda_tuned_highrisk_or_direct": {
+      "tp": 25,
+      "fp": 3,
+      "fn": 0,
+      "tn": 117,
+      "precision": 0.893,
+      "recall": 1.0,
+      "f1": 0.943,
+      "false_positives": [
+        "core_banking.core.branch.city",
+        "core_banking.core.customer.city",
+        "bank_dw.dw.dim_branch.city"
+      ],
+      "false_negatives": []
+    },
+    "pipeda_exact_class_accuracy": 0.959,
+    "high_risk_recall": {
+      "ootb_pii_sensitive": "4/7",
+      "pipeda_highrisk": "7/7"
+    }
+  },
+  "columns": [
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "account_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "customer_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "branch_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "account_number",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_account_number_column_name` 1 time with an average score of 0.80.\nPatterns matched:\n\t- `^(account_?(number|no|num)|acct_?(no|num|number))$` (scored: 0.80)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "account_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "currency",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "current_balance",
+      "truth": "F",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.Financial",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `financial_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `(balance|income|salary|amount|credit_?score)` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "account_status",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "opened_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "account",
+      "column": "closed_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 2 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "transaction_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "customer_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "full_name",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 48 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 48 times with an average score of 0.85.\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "date_of_birth",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob|birth_?date)` (scored: 0.85)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "occupation",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "amount_cad",
+      "truth": "F",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.Financial",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `financial_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `(balance|income|salary|amount|credit_?score)` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "txn_date",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "aml_large_cash_txn",
+      "column": "branch_transit",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "branch",
+      "column": "branch_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "branch",
+      "column": "transit_number",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "branch",
+      "column": "branch_name",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "branch",
+      "column": "city",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 5 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 5 times with an average score of 0.85.\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "branch",
+      "column": "province",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "card_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "account_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "card_number",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SanitizedCreditCardRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `^4\\d{12}(?:\\d{3})?$` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SanitizedCreditCardRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `^4\\d{12}(?:\\d{3})?$` (scored: 1.00)\n\nDetected by `card_column_name` 1 time with an average score of 0.90.\nPatterns matched:\n\t- `^(cvv2?|cvc|csc|card_?(number|no|num)|pan)$` (scored: 0.90)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "expiry_month",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "expiry_year",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "cvv",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `CvvRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\A\\d{3,4}\\Z` (scored: 0.50)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `card_column_name` 1 time with an average score of 0.90.\nPatterns matched:\n\t- `^(cvv2?|cvc|csc|card_?(number|no|num)|pan)$` (scored: 0.90)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "card",
+      "column": "card_status",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "customer_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "first_name",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 40 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 40 times with an average score of 0.85.\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "last_name",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 40 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 40 times with an average score of 0.85.\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "date_of_birth",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob|birth_?date)` (scored: 0.85)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "sin",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `AuTfnRecognizer` 4 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b\\d{3}-\\d{3}-\\d{3}\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_sin_column_name` 1 time with an average score of 0.90.\nPatterns matched:\n\t- `^(sin|sin_?(no|num|number)|social_?insurance(_?(no|num|number))?|nas)$` (scored: 0.90)\n\nDetected by `ca_sin_formatted` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b[1-79]\\d{2}[- ]\\d{3}[- ]"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "email",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\nDetected by `direct_identifier_column_name` "
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "phone_number",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ContextAwareNhsRecognizer` 2 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b([0-9]{3})[- ]?([0-9]{3})[- ]?([0-9]{4})\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `PhoneRecognizer` 50 times with an average score of 1.00.\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "street_address",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 17 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 17 times with an average score of 0.85.\n\nDetected by `direct_identifier_column_name` 2 times with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|do"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "city",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 26 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 26 times with an average score of 0.85.\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "province",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "postal_code",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_postal_code` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b[ABCEGHJ-NPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z][ -]?\\d[ABCEGHJ-NPRSTV-Z]\\d\\b` (scored: 0.75)\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "occupation",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "annual_income",
+      "truth": "F",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.Financial",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `financial_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `(balance|income|salary|amount|credit_?score)` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "preferred_language",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "customer_status",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "created_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 2 times with an average score of 0.85.\n\nDetected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer",
+      "column": "closed_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 1 time with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "consent_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "customer_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "purpose",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "granted",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "consent_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "capture_channel",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "captured_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "customer_consent",
+      "column": "withdrawn_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 3 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "account_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "account_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "customer_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "account_number",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_account_number_column_name` 1 time with an average score of 0.80.\nPatterns matched:\n\t- `^(account_?(number|no|num)|acct_?(no|num|number))$` (scored: 0.80)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "account_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "account_status",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_account",
+      "column": "opened_on",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_branch",
+      "column": "branch_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_branch",
+      "column": "transit_number",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_branch",
+      "column": "branch_name",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_branch",
+      "column": "city",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 5 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 5 times with an average score of 0.85.\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_branch",
+      "column": "province",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_consent",
+      "column": "customer_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_consent",
+      "column": "purpose",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_consent",
+      "column": "granted",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_consent",
+      "column": "consent_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_consent",
+      "column": "captured_on",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_consent",
+      "column": "withdrawn_on",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 3 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "customer_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "customer_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "full_name",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 49 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 49 times with an average score of 0.85.\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "email",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\nDetected by `direct_identifier_column_name` "
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "birth_year",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "age_band",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "province",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "postal_fsa",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "income_band",
+      "truth": "Q",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.QuasiIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `quasi_identifier_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `^(city|province|postal_fsa|fsa|birth_year|age_band|occupation|gender|preferred_language|income_band)$` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "customer_status",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "customer_since",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_customer",
+      "column": "closed_on",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 1 time with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_date",
+      "column": "date_key",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 40 times with an average score of 1.00.\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_date",
+      "column": "full_date",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_date",
+      "column": "year",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_date",
+      "column": "quarter",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_date",
+      "column": "month",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "dim_date",
+      "column": "day_of_week",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "transaction_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "date_key",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 41 times with an average score of 1.00.\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "account_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "customer_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "branch_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "amount_cad",
+      "truth": "F",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.Financial",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `financial_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `(balance|income|salary|amount|credit_?score)` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "txn_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "channel",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "dw",
+      "table": "fact_transaction",
+      "column": "merchant_category",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "fx_rate",
+      "column": "rate_date",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "fx_rate",
+      "column": "currency_pair",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "fx_rate",
+      "column": "rate",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "document_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "customer_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "document_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "document_number",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_drivers_licence_on` 23 times with an average score of 0.75.\nPatterns matched:\n\t- `\\b[A-Z]\\d{4}-\\d{5}-\\d{5}\\b` (scored: 0.75)\n\nDetected by `ca_passport` 27 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b[A-Z]{2}\\d{6}\\b` (scored: 0.40)\n\nDetected by `gov_id_column_name` 1 "
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "issuing_jurisdiction",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "expiry_date",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "verified_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 2 times with an average score of 0.85.\n\nDetected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "kyc",
+      "table": "identity_document",
+      "column": "verified_by_employee",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "legacy_member_import",
+      "column": "import_row_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "legacy_member_import",
+      "column": "fld_01",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 49 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 49 times with an average score of 0.85.\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "legacy_member_import",
+      "column": "fld_02",
+      "truth": "H",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `AbaRoutingRecognizer` 4 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b[0123678]\\d{8}\\b` (scored: 1.00)\n\nDetected by `AuAcnRecognizer` 4 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b\\d{3}\\s\\d{3}\\s\\d{3}\\b` (scored: 1.00)\n\t- `\\b\\d{9}\\b` (scored: 1.00)\n\nDetect"
+        },
+        {
+          "tagFQN": "PIPEDA.HighRisk",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_sin_formatted` 25 times with an average score of 0.70.\nPatterns matched:\n\t- `\\b[1-79]\\d{2}[- ]\\d{3}[- ]\\d{3}\\b` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "legacy_member_import",
+      "column": "fld_03",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ca_postal_code` 50 times with an average score of 0.75.\nPatterns matched:\n\t- `\\b[ABCEGHJ-NPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z][ -]?\\d[ABCEGHJ-NPRSTV-Z]\\d\\b` (scored: 0.75)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "legacy_member_import",
+      "column": "fld_04",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "legacy_member_import",
+      "column": "imported_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "marketing_campaign_audience",
+      "column": "customer_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "marketing_campaign_audience",
+      "column": "full_name",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 49 times with an average score of 0.85.\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `SpacyRecognizer` 49 times with an average score of 0.85.\n\nDetected by `direct_identifier_column_name` 1 time with an average score of 0.85.\nPatterns matched:\n\t- `(first_?name|last_?name|full_?name|surname|given_?name|e_?mail|phone|mobile|street|address|postal_?code|zip|date_of_birth|dob"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "marketing_campaign_audience",
+      "column": "email",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\nDetected by `direct_identifier_column_name` "
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "marketing_campaign_audience",
+      "column": "segment",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "marketing_campaign_audience",
+      "column": "consent_marketing",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "marketing_campaign_audience",
+      "column": "extracted_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "monthly_branch_activity",
+      "column": "year",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "monthly_branch_activity",
+      "column": "month",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "monthly_branch_activity",
+      "column": "branch_key",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "monthly_branch_activity",
+      "column": "txn_count",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "monthly_branch_activity",
+      "column": "total_amount_cad",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.Financial",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `financial_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `(balance|income|salary|amount|credit_?score)` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "bank_dw",
+      "schema": "mart",
+      "table": "monthly_branch_activity",
+      "column": "active_customers",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "support_ticket",
+      "column": "ticket_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "support_ticket",
+      "column": "customer_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "support_ticket",
+      "column": "opened_at",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "support_ticket",
+      "column": "category",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "ops",
+      "table": "support_ticket",
+      "column": "agent_notes",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ContextAwareNhsRecognizer` 1 time with an average score of 1.00.\nPatterns matched:\n\t- `\\b([0-9]{3})[- ]?([0-9]{3})[- ]?([0-9]{4})\\b` (scored: 1.00)\n\nDetected by `EmailRecognizer` 7 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 7 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\nDetected by `SpacyRecognizer` 33 times with a"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "transaction_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "account_id",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "txn_timestamp",
+      "truth": "N",
+      "tags": [
+        {
+          "tagFQN": "PII.NonSensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `ValidatedDateRecognizer` 50 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(\\d{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1]))\\b` (scored: 1.00)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "amount",
+      "truth": "F",
+      "tags": [
+        {
+          "tagFQN": "PIPEDA.Financial",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `financial_column_name` 1 time with an average score of 0.70.\nPatterns matched:\n\t- `(balance|income|salary|amount|credit_?score)` (scored: 0.70)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "txn_type",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "channel",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "merchant_name",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "merchant_category",
+      "truth": "N",
+      "tags": []
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "counterparty_email",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 3 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `EmailRecognizer` 3 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)\\b` (scored: 1.00)\n\nDetected by `direct_identifier_column_name` 1"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "client_ip",
+      "truth": "D",
+      "tags": [
+        {
+          "tagFQN": "PII.Sensitive",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `IpRecognizer` 24 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b` (scored: 0.60)\n\n"
+        },
+        {
+          "tagFQN": "PIPEDA.DirectIdentifier",
+          "labelType": "Generated",
+          "state": "Suggested",
+          "reason": "Detected by `IpRecognizer` 24 times with an average score of 1.00.\nPatterns matched:\n\t- `\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b` (scored: 0.60)\n\n"
+        }
+      ]
+    },
+    {
+      "database": "core_banking",
+      "schema": "core",
+      "table": "transaction",
+      "column": "memo",
+      "truth": "N",
+      "tags": []
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+# Borealis Bank PIPEDA governance POC - layered on top of the OFFICIAL
+# OpenMetadata 2.0.5 compose file (openmetadata/docker-compose-openmetadata-postgres.yml,
+# downloaded unmodified from the 2.0.5-release GitHub release).
+#
+# Usage (see README.md):  ./scripts/run_poc.sh
+#   docker compose = docker compose -f openmetadata/docker-compose-openmetadata-postgres.yml -f docker-compose.poc.yml
+
+services:
+  # ---- slim down the official stack so it fits a 4 GB Docker Desktop VM
+  elasticsearch:
+    environment:
+      - ES_JAVA_OPTS=${ES_JAVA_OPTS:--Xms512m -Xmx512m}
+    mem_limit: 1400m
+
+  # Airflow-based ingestion server is optional: the POC runs the same ingestion
+  # framework as one-off containers (`metadata ingest|classify|profile|test`).
+  # Start it with `--profile airflow` to schedule Agents from the UI instead.
+  ingestion:
+    profiles: ["airflow"]
+
+  # ---- the fictional bank: OLTP (core_banking) + OLAP warehouse (bank_dw)
+  bank-db:
+    container_name: borealis_bank_db
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${BANK_DB_ADMIN_PASSWORD}
+      OM_READER_PASSWORD: ${OM_READER_PASSWORD}
+      ETL_PASSWORD: ${ETL_PASSWORD}
+      ANALYST_PASSWORD: ${ANALYST_PASSWORD}
+    command: ["postgres", "-c", "shared_buffers=128MB", "-c", "shared_preload_libraries=pg_stat_statements"]
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./bank-db/init:/docker-entrypoint-initdb.d:ro
+      - bank-db-data:/var/lib/postgresql/data
+    mem_limit: 384m
+    networks: [app_net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bank_dw"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  # ---- Python toolbox: data generator, ETL, governance automation, evaluation
+  toolbox:
+    container_name: borealis_toolbox
+    build: ./toolbox
+    profiles: ["tools"]
+    env_file: .env
+    environment:
+      BANK_DB_HOST: bank-db
+      OM_HOST: http://openmetadata-server:8585
+    volumes:
+      - ./toolbox/poc:/app/poc:ro
+      - ./workflows:/workflows:ro
+      - ./work:/work
+      - ./results:/results
+    networks: [app_net]
+
+  # ---- one-off runner for the OpenMetadata ingestion framework (same image as Airflow ingestion)
+  om-cli:
+    container_name: borealis_om_cli
+    image: docker.getcollate.io/openmetadata/ingestion:2.0.5
+    profiles: ["tools"]
+    entrypoint: ["metadata"]
+    volumes:
+      - ./work:/work:ro
+      - ./om-ext:/ext:ro
+    networks: [app_net]
+
+volumes:
+  bank-db-data:

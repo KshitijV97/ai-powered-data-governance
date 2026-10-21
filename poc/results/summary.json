@@ -1,0 +1,627 @@
+{
+  "classification": [
+    {
+      "run": "Out-of-the-box PII",
+      "precision": 0.857,
+      "recall": 0.72,
+      "f1": 0.783,
+      "tp": 18,
+      "fp": 3,
+      "fn": 7,
+      "high_risk_recall": "4/7",
+      "false_negatives": [
+        "core_banking.core.account.account_number",
+        "bank_dw.mart.aml_large_cash_txn.date_of_birth",
+        "core_banking.core.customer.date_of_birth",
+        "core_banking.core.customer.postal_code",
+        "bank_dw.dw.dim_account.account_number",
+        "core_banking.kyc.identity_document.document_number",
+        "core_banking.ops.legacy_member_import.fld_03"
+      ],
+      "false_positives": [
+        "core_banking.core.branch.city",
+        "core_banking.core.customer.city",
+        "bank_dw.dw.dim_branch.city"
+      ]
+    },
+    {
+      "run": "Canada-tuned PIPEDA",
+      "precision": 0.893,
+      "recall": 1.0,
+      "f1": 0.943,
+      "tp": 25,
+      "fp": 3,
+      "fn": 0,
+      "high_risk_recall": "7/7",
+      "false_negatives": [],
+      "false_positives": [
+        "core_banking.core.branch.city",
+        "core_banking.core.customer.city",
+        "bank_dw.dw.dim_branch.city"
+      ]
+    },
+    {
+      "run": "Tuned + steward feedback",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 25,
+      "fp": 0,
+      "fn": 0,
+      "high_risk_recall": "7/7",
+      "false_negatives": [],
+      "false_positives": []
+    }
+  ],
+  "data_quality": [
+    {
+      "test": "fintrac_lctr_min_amount",
+      "table": "bank_dw.mart.aml_large_cash_txn",
+      "status": "Success",
+      "result": "Found 0 row(s). Test query is expected to return <= 0 row(s)."
+    },
+    {
+      "test": "p4_3_consent_marketing_flag_true",
+      "table": "bank_dw.mart.marketing_campaign_audience",
+      "status": "Success",
+      "result": "Found countInSet=611."
+    },
+    {
+      "test": "p4_3_consent_not_withdrawn",
+      "table": "bank_dw.mart.marketing_campaign_audience",
+      "status": "Failed",
+      "result": "Found 55 row(s). Test query is expected to return <= 0 row(s)."
+    },
+    {
+      "test": "p4_3_consent_purpose_not_null",
+      "table": "core_banking.core.customer_consent",
+      "status": "Success",
+      "result": "Found nullCount=0. It should be 0"
+    },
+    {
+      "test": "p4_3_consent_withdrawal_after_capture",
+      "table": "core_banking.core.customer_consent",
+      "status": "Success",
+      "result": "Found 0 row(s). Test query is expected to return <= 0 row(s)."
+    },
+    {
+      "test": "p4_4_limiting_collection_no_cvv_stored",
+      "table": "core_banking.core.card",
+      "status": "Failed",
+      "result": "Found 1239 row(s). Test query is expected to return <= 0 row(s)."
+    },
+    {
+      "test": "p4_4_minimisation_no_full_postal_code",
+      "table": "bank_dw.dw.dim_customer",
+      "status": "Success",
+      "result": "Found minLength=3, maxLength=3 vs. the expected minLength=3.0, maxLength=3.0."
+    },
+    {
+      "test": "p4_5_retention_closed_customers_purged",
+      "table": "core_banking.core.customer",
+      "status": "Failed",
+      "result": "Found 38 row(s). Test query is expected to return <= 0 row(s)."
+    },
+    {
+      "test": "p4_5_retention_closed_customers_purged",
+      "table": "bank_dw.dw.dim_customer",
+      "status": "Failed",
+      "result": "Found 38 row(s). Test query is expected to return <= 0 row(s)."
+    },
+    {
+      "test": "p4_6_accuracy_email_format",
+      "table": "core_banking.core.customer",
+      "status": "Failed",
+      "result": "Found 1260 value(s) matching regex pattern vs 1500 value(s) in the column."
+    },
+    {
+      "test": "p4_6_accuracy_postal_code_format",
+      "table": "core_banking.core.customer",
+      "status": "Failed",
+      "result": "Found 1483 value(s) matching regex pattern vs 1500 value(s) in the column."
+    },
+    {
+      "test": "p4_6_accuracy_sin_unique",
+      "table": "core_banking.core.customer",
+      "status": "Success",
+      "result": "Found valuesCount=1473 vs. uniqueCount=1473. Both counts should be equal for column values to be unique."
+    }
+  ],
+  "inventory": [
+    {
+      "table": "core_banking.core.customer",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "AccountServicing"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier1",
+      "sensitivity": [
+        "PIPEDA.HighRisk"
+      ]
+    },
+    {
+      "table": "core_banking.core.customer_consent",
+      "domain": "RetailBanking",
+      "owner": "PrivacyOffice",
+      "purposes": [
+        "AccountServicing"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier1",
+      "sensitivity": []
+    },
+    {
+      "table": "core_banking.core.account",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "AccountServicing"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier1",
+      "sensitivity": [
+        "PIPEDA.HighRisk"
+      ]
+    },
+    {
+      "table": "core_banking.core.card",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "AccountServicing"
+      ],
+      "retention": "P2Y",
+      "tier": "Tier1",
+      "sensitivity": [
+        "PIPEDA.HighRisk"
+      ]
+    },
+    {
+      "table": "core_banking.core.transaction",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "AccountServicing",
+        "FraudPrevention"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier1",
+      "sensitivity": [
+        "PIPEDA.DirectIdentifier"
+      ]
+    },
+    {
+      "table": "core_banking.kyc.identity_document",
+      "domain": "RiskCompliance",
+      "owner": "FraudAML",
+      "purposes": [
+        "RegulatoryReporting"
+      ],
+      "retention": "P5Y",
+      "tier": "Tier1",
+      "sensitivity": [
+        "PIPEDA.HighRisk"
+      ]
+    },
+    {
+      "table": "core_banking.ops.support_ticket",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "AccountServicing"
+      ],
+      "retention": "P2Y",
+      "tier": "Tier3",
+      "sensitivity": [
+        "PIPEDA.DirectIdentifier"
+      ]
+    },
+    {
+      "table": "core_banking.ops.legacy_member_import",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [],
+      "retention": "P0D",
+      "tier": "Tier3",
+      "sensitivity": [
+        "PIPEDA.HighRisk"
+      ]
+    },
+    {
+      "table": "bank_dw.dw.dim_customer",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "Analytics"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier2",
+      "sensitivity": [
+        "PIPEDA.DirectIdentifier"
+      ]
+    },
+    {
+      "table": "bank_dw.dw.dim_consent",
+      "domain": "RetailBanking",
+      "owner": "PrivacyOffice",
+      "purposes": [
+        "Marketing",
+        "Analytics"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier2",
+      "sensitivity": []
+    },
+    {
+      "table": "bank_dw.dw.fact_transaction",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "Analytics",
+        "FraudPrevention"
+      ],
+      "retention": "P7Y",
+      "tier": "Tier2",
+      "sensitivity": [
+        "PIPEDA.Financial"
+      ]
+    },
+    {
+      "table": "bank_dw.mart.marketing_campaign_audience",
+      "domain": "Marketing",
+      "owner": "RetailMarketing",
+      "purposes": [
+        "Marketing"
+      ],
+      "retention": "P90D",
+      "tier": "Tier2",
+      "sensitivity": [
+        "PIPEDA.DirectIdentifier"
+      ]
+    },
+    {
+      "table": "bank_dw.mart.aml_large_cash_txn",
+      "domain": "RiskCompliance",
+      "owner": "FraudAML",
+      "purposes": [
+        "RegulatoryReporting"
+      ],
+      "retention": "P5Y",
+      "tier": "Tier1",
+      "sensitivity": [
+        "PIPEDA.DirectIdentifier"
+      ]
+    },
+    {
+      "table": "bank_dw.mart.monthly_branch_activity",
+      "domain": "RetailBanking",
+      "owner": "DataEngineering",
+      "purposes": [
+        "Analytics"
+      ],
+      "retention": "P10Y",
+      "tier": "Tier3",
+      "sensitivity": [
+        "PIPEDA.Financial"
+      ]
+    }
+  ],
+  "scorecard": [
+    [
+      "4.1 Accountability",
+      "Privacy Office team; CPO owns PIPEDA classification and glossary; table owners assigned",
+      "Implemented"
+    ],
+    [
+      "4.2 Identifying purposes",
+      "PIPEDAPurpose tags on 14 tables; data contract states purpose",
+      "Implemented"
+    ],
+    [
+      "4.3 Consent",
+      "Consent DQ tests; consent row filter in governed marketing view",
+      "Gap detected (55 withdrawn customers in audience)"
+    ],
+    [
+      "4.4 Limiting collection",
+      "HighRisk inventory exposes stored CVVs and legacy SINs",
+      "Gap detected (1,239 CVVs stored)"
+    ],
+    [
+      "4.5 Limiting use, disclosure, retention",
+      "retentionPeriod on tables; retention DQ tests",
+      "Gap detected (38 customers past retention)"
+    ],
+    [
+      "4.6 Accuracy",
+      "Format and uniqueness DQ tests",
+      "Gap detected (17 invalid postal codes; e-mail rule needs review)"
+    ],
+    [
+      "4.7 Safeguards",
+      "Tag-based catalogue policies; catalogue-generated masked views in warehouse",
+      "Implemented (POC scope)"
+    ],
+    [
+      "4.8 Openness",
+      "Approved PIPEDA glossary published in catalogue",
+      "Implemented"
+    ],
+    [
+      "4.9 Individual access",
+      "Column-level lineage OLTP->OLAP; PI inventory; MCP lineage query",
+      "Partially (no per-person search)"
+    ],
+    [
+      "4.10 Challenging compliance",
+      "Recognizer feedback workflow; task audit trail",
+      "Partially (internal workflow only)"
+    ]
+  ],
+  "workflows": {
+    "glossary_approval": {
+      "tasks": [
+        {
+          "task": "TASK-00001",
+          "term": "PIPEDAGlossary.LimitingCollection",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00002",
+          "term": "PIPEDAGlossary.Accountability",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00003",
+          "term": "PIPEDAGlossary.Accuracy",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00004",
+          "term": "PIPEDAGlossary.LimitingUseDisclosureRetention",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00005",
+          "term": "PIPEDAGlossary.Consent",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00006",
+          "term": "PIPEDAGlossary.PersonalInformation",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00007",
+          "term": "PIPEDAGlossary.IdentifyingPurposes",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00008",
+          "term": "PIPEDAGlossary.BreachOfSecuritySafeguards",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00009",
+          "term": "PIPEDAGlossary.RROSH",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00010",
+          "term": "PIPEDAGlossary.IndividualAccess",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00011",
+          "term": "PIPEDAGlossary.Safeguards",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00012",
+          "term": "PIPEDAGlossary.Openness",
+          "resolution": "Approved",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00013",
+          "term": "PIPEDAGlossary.ChallengingCompliance",
+          "resolution": "Approved",
+          "status": "Approved"
+        }
+      ],
+      "term_status": {
+        "PIPEDAGlossary.Accountability": "Approved",
+        "PIPEDAGlossary.Accuracy": "Approved",
+        "PIPEDAGlossary.BreachOfSecuritySafeguards": "Approved",
+        "PIPEDAGlossary.ChallengingCompliance": "Approved",
+        "PIPEDAGlossary.Consent": "Approved",
+        "PIPEDAGlossary.IdentifyingPurposes": "Approved",
+        "PIPEDAGlossary.IndividualAccess": "Approved",
+        "PIPEDAGlossary.LimitingCollection": "Approved",
+        "PIPEDAGlossary.LimitingUseDisclosureRetention": "Approved",
+        "PIPEDAGlossary.Openness": "Approved",
+        "PIPEDAGlossary.PersonalInformation": "Approved",
+        "PIPEDAGlossary.RROSH": "Approved",
+        "PIPEDAGlossary.Safeguards": "Approved"
+      }
+    },
+    "recognizer_feedback": {
+      "submitted": [
+        {
+          "column": "borealis_core_banking_oltp.core_banking.core.branch.city",
+          "feedbackId": "719d9adc-2457-4011-9cfe-7ec09252b25c",
+          "status": "PENDING"
+        },
+        {
+          "column": "borealis_enterprise_dw_olap.bank_dw.dw.dim_branch.city",
+          "feedbackId": "54cdefd2-befa-4c05-966e-1ac840b2e0e8",
+          "status": "PENDING"
+        },
+        {
+          "column": "borealis_core_banking_oltp.core_banking.core.customer.city",
+          "feedbackId": "006c88e9-b84c-4177-8d61-02c028722c54",
+          "status": "PENDING"
+        }
+      ],
+      "resolved": [
+        {
+          "task": "TASK-00014",
+          "about": "PIPEDA.DirectIdentifier",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00015",
+          "about": "PIPEDA.DirectIdentifier",
+          "status": "Approved"
+        },
+        {
+          "task": "TASK-00016",
+          "about": "PIPEDA.DirectIdentifier",
+          "status": "Approved"
+        }
+      ],
+      "after": [
+        {
+          "column": "borealis_core_banking_oltp.core_banking.core.branch.city",
+          "tags_after": [
+            "PII.Sensitive"
+          ],
+          "recognizer_exceptions_on_tag": 3
+        },
+        {
+          "column": "borealis_enterprise_dw_olap.bank_dw.dw.dim_branch.city",
+          "tags_after": [
+            "PII.Sensitive"
+          ],
+          "recognizer_exceptions_on_tag": 3
+        },
+        {
+          "column": "borealis_core_banking_oltp.core_banking.core.customer.city",
+          "tags_after": [
+            "PII.Sensitive"
+          ],
+          "recognizer_exceptions_on_tag": 3
+        }
+      ]
+    },
+    "access_control_tests": [
+      {
+        "user": "maya.marketing",
+        "table": "core_banking.core.customer",
+        "operation": "View sampleData",
+        "http": 403,
+        "masked_values_in_first_5_rows": null
+      },
+      {
+        "user": "maya.marketing",
+        "table": "bank_dw.mart.marketing_campaign_audience",
+        "operation": "View sampleData",
+        "http": 403,
+        "masked_values_in_first_5_rows": null
+      },
+      {
+        "user": "maya.marketing",
+        "table": "bank_dw.mart.monthly_branch_activity",
+        "operation": "View sampleData",
+        "http": 200,
+        "masked_values_in_first_5_rows": 0
+      },
+      {
+        "user": "femi.aml",
+        "table": "core_banking.core.customer",
+        "operation": "View sampleData",
+        "http": 200,
+        "masked_values_in_first_5_rows": 35
+      },
+      {
+        "user": "priya.cpo",
+        "table": "core_banking.core.customer",
+        "operation": "View sampleData",
+        "http": 200,
+        "masked_values_in_first_5_rows": 35
+      },
+      {
+        "user": "maya.marketing",
+        "table": "core_banking.core.customer",
+        "operation": "Add tag, keep PIPEDA.HighRisk",
+        "http": 403,
+        "PIPEDA.HighRisk_present_after": true
+      },
+      {
+        "user": "maya.marketing",
+        "table": "core_banking.core.customer",
+        "operation": "Remove PIPEDA.HighRisk tag",
+        "http": 403,
+        "PIPEDA.HighRisk_present_after": true
+      }
+    ]
+  },
+  "enforcement_checks": [
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT email FROM governed_marketing_analyst.dim_customer LIMIT 1",
+      "result": "OK: 8b7f5bedf2070d5e7020ff80..."
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT email FROM governed_marketing_analyst.marketing_campaign_audience LIMIT 1",
+      "result": "OK: gabriel.paquette1@exampl..."
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT count(*) FROM governed_marketing_analyst.marketing_campaign_audience",
+      "result": "OK: 556..."
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT email FROM dw.dim_customer LIMIT 1",
+      "result": "DENIED/ERROR: permission denied for schema dw"
+    },
+    {
+      "role": "marketing_analyst",
+      "query": "SELECT full_name FROM governed_marketing_analyst.aml_large_cash_txn LIMIT 1",
+      "result": "OK: 0f19267e69db658a3df0e443..."
+    },
+    {
+      "role": "fraud_analyst",
+      "query": "SELECT full_name FROM governed_fraud_analyst.aml_large_cash_txn LIMIT 1",
+      "result": "OK: Emma Ahmed..."
+    },
+    {
+      "role": "fraud_analyst",
+      "query": "SELECT account_number FROM governed_fraud_analyst.dim_account LIMIT 1",
+      "result": "DENIED/ERROR: column \"account_number\" does not exist"
+    }
+  ],
+  "mcp_tools": [
+    "company_context",
+    "search_metadata",
+    "semantic_search",
+    "get_entity_details",
+    "get_persona_context",
+    "get_user_context",
+    "find_context",
+    "create_entity",
+    "describe_entity_type",
+    "patch_entity",
+    "get_entity_lineage",
+    "create_lineage",
+    "get_test_definitions",
+    "create_test_case",
+    "root_cause_analysis"
+  ],
+  "figure": "/results/figures/classification_comparison.png"
+}

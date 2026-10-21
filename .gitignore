@@ -1,0 +1,37 @@
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+.claude/settings.local.json
+
+# --- Office lock/temp files (e.g. "~$am research...docx" while Word is open) ---
+~$*
+*.tmp
+
+# --- Downloaded research papers (copyrighted; keep only the index README) ---
+references/papers/*.pdf
+
+# --- POC secrets and runtime state ---
+poc/.env
+poc/work/
+poc/docker-volume/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# --- LaTeX build artifacts (main.pdf stays tracked) ---
+report/*.aux
+report/*.log
+report/*.out
+report/*.bbl
+report/*.blg
+report/*.toc
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz

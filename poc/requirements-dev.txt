@@ -1,0 +1,3 @@
+# Test-only dependencies (not installed in the toolbox image).
+# The unit tests stub psycopg/requests/PyYAML when they are absent, so pytest is all CI needs.
+pytest==8.3.3

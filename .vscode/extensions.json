@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "james-yu.latex-workshop",
+    "ms-azuretools.vscode-containers",
+    "redhat.vscode-yaml",
+    "timonwong.shellcheck"
+  ]
+}

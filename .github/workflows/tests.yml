@@ -1,0 +1,22 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"   # same as the toolbox image
+          cache: pip
+          cache-dependency-path: poc/requirements-dev.txt
+      - run: pip install -r poc/requirements-dev.txt
+      - run: pytest poc/tests/unit

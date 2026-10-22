@@ -26,10 +26,14 @@ class OpenMetadata:
 
     # ------------------------------------------------------------ auth
     @classmethod
-    def login(cls, email: str = config.OM_ADMIN_EMAIL, password: str = config.OM_ADMIN_PASSWORD) -> "OpenMetadata":
+    def login(
+        cls, email: str = config.OM_ADMIN_EMAIL, password: str = config.OM_ADMIN_PASSWORD
+    ) -> OpenMetadata:
         om = cls()
-        r = om.s.post(f"{om.api}/v1/users/login",
-                      json={"email": email, "password": base64.b64encode(password.encode()).decode()})
+        r = om.s.post(
+            f"{om.api}/v1/users/login",
+            json={"email": email, "password": base64.b64encode(password.encode()).decode()},
+        )
         if r.status_code != 200:
             raise OMError(f"login failed: {r.status_code} {r.text[:300]}")
         om.s.headers["Authorization"] = f"Bearer {r.json()['accessToken']}"
@@ -76,8 +80,11 @@ class OpenMetadata:
         return self._check(self.s.post(self.api + path, json=body), ok)
 
     def patch(self, path: str, ops: list[dict]) -> Any:
-        return self._check(self.s.patch(self.api + path, json=ops,
-                                        headers={"Content-Type": "application/json-patch+json"}))
+        return self._check(
+            self.s.patch(
+                self.api + path, json=ops, headers={"Content-Type": "application/json-patch+json"}
+            )
+        )
 
     def delete(self, path: str, params: dict | None = None) -> Any:
         return self._check(self.s.delete(self.api + path, params=params), (200, 204, 404))
@@ -88,7 +95,9 @@ class OpenMetadata:
         return quote(fqn, safe="")
 
     def by_name(self, entity: str, fqn: str, fields: str = "") -> Any:
-        return self.get_or_none(f"/v1/{entity}/name/{self.q(fqn)}", {"fields": fields} if fields else None)
+        return self.get_or_none(
+            f"/v1/{entity}/name/{self.q(fqn)}", {"fields": fields} if fields else None
+        )
 
     def list_all(self, entity: str, params: dict | None = None) -> list[dict]:
         params = dict(params or {}, limit=200)

@@ -6,8 +6,14 @@ from poc.evaluate_classification import _metrics, evaluate
 
 
 def row(truth, *tags, col="c"):
-    return {"database": "db", "schema": "s", "table": "t", "column": col, "truth": truth,
-            "tags": [{"tagFQN": t} for t in tags]}
+    return {
+        "database": "db",
+        "schema": "s",
+        "table": "t",
+        "column": col,
+        "truth": truth,
+        "tags": [{"tagFQN": t} for t in tags],
+    }
 
 
 def flagged(r):
@@ -15,8 +21,14 @@ def flagged(r):
 
 
 def test_metrics_counts_and_scores():
-    rows = [row("H", "x", col="tp1"), row("D", "x", col="tp2"), row("D", col="fn1"),
-            row("N", "x", col="fp1"), row("Q", col="tn1"), row("F", col="tn2")]
+    rows = [
+        row("H", "x", col="tp1"),
+        row("D", "x", col="tp2"),
+        row("D", col="fn1"),
+        row("N", "x", col="fp1"),
+        row("Q", col="tn1"),
+        row("F", col="tn2"),
+    ]
     m = _metrics(rows, flagged)
     assert (m["tp"], m["fp"], m["fn"], m["tn"]) == (2, 1, 1, 2)
     assert m["precision"] == pytest.approx(0.667)
@@ -81,8 +93,12 @@ def test_evaluate_ootb_vs_pipeda():
 
 
 def test_evaluate_exact_class_accuracy_penalises_wrong_level():
-    rows = [row("H", "PIPEDA.DirectIdentifier"), row("N", "PIPEDA.Financial"),
-            row("N", "PIPEDA.NonPersonal"), row("F", "PIPEDA.Financial")]
+    rows = [
+        row("H", "PIPEDA.DirectIdentifier"),
+        row("N", "PIPEDA.Financial"),
+        row("N", "PIPEDA.NonPersonal"),
+        row("F", "PIPEDA.Financial"),
+    ]
     assert evaluate(rows)["pipeda_exact_class_accuracy"] == 0.5
 
 

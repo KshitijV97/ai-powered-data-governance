@@ -19,8 +19,14 @@ EXPECTED_RUNS = {
 
 
 def test_summary_has_expected_sections(summary):
-    assert {"classification", "data_quality", "inventory", "scorecard", "workflows",
-            "enforcement_checks"} <= set(summary)
+    assert {
+        "classification",
+        "data_quality",
+        "inventory",
+        "scorecard",
+        "workflows",
+        "enforcement_checks",
+    } <= set(summary)
 
 
 @pytest.mark.parametrize("run", EXPECTED_RUNS)
@@ -39,11 +45,14 @@ def test_f1_improves_monotonically(summary):
     assert f1 == sorted(f1) and f1[0] < f1[-1]
 
 
-@pytest.mark.parametrize("file,key,f1", [
-    ("classification_baseline_ootb.json", "ootb_pii_sensitive", 0.783),
-    ("classification_canada_tuned.json", "pipeda_tuned_highrisk_or_direct", 0.943),
-    ("classification_after_feedback.json", "pipeda_tuned_highrisk_or_direct", 1.0),
-])
+@pytest.mark.parametrize(
+    "file,key,f1",
+    [
+        ("classification_baseline_ootb.json", "ootb_pii_sensitive", 0.783),
+        ("classification_canada_tuned.json", "pipeda_tuned_highrisk_or_direct", 0.943),
+        ("classification_after_feedback.json", "pipeda_tuned_highrisk_or_direct", 1.0),
+    ],
+)
 def test_per_run_classification_files(load, file, key, f1):
     s = load(file)["summary"]
     assert s["columns_total"] == 145
@@ -57,8 +66,10 @@ def test_snapshot_columns_match_ground_truth(load):
     columns = load("classification_after_feedback.json")["columns"]
     keys = {(c["database"], c["schema"], c["table"], c["column"]) for c in columns}
     assert keys == set(ground_truth.labels())
-    assert all(c["truth"] == ground_truth.labels()[(c["database"], c["schema"], c["table"], c["column"])]
-               for c in columns)
+    assert all(
+        c["truth"] == ground_truth.labels()[(c["database"], c["schema"], c["table"], c["column"])]
+        for c in columns
+    )
 
 
 # ---------------------------------------------------------------- data quality
@@ -77,7 +88,9 @@ def failing_rows(result: str) -> int:
     """Failing-row count from an OpenMetadata test result message."""
     if m := re.fullmatch(r"Found (\d+) row\(s\)\. .*", result):
         return int(m[1])
-    if m := re.fullmatch(r"Found (\d+) value\(s\) matching regex pattern vs (\d+) value\(s\) in the column\.", result):
+    if m := re.fullmatch(
+        r"Found (\d+) value\(s\) matching regex pattern vs (\d+) value\(s\) in the column\.", result
+    ):
         return int(m[2]) - int(m[1])
     raise ValueError(f"unrecognised result: {result}")
 
@@ -95,7 +108,9 @@ def test_dq_failing_rows(summary, key):
 
 
 def test_dq_row_count_tests_that_pass_find_nothing(summary):
-    passing = [t for t in summary["data_quality"] if t["status"] == "Success" and "row(s)" in t["result"]]
+    passing = [
+        t for t in summary["data_quality"] if t["status"] == "Success" and "row(s)" in t["result"]
+    ]
     assert passing and all(failing_rows(t["result"]) == 0 for t in passing)
 
 
@@ -117,47 +132,86 @@ def test_catalogue_access_checks(summary):
 
 
 def test_catalogue_tag_tampering_left_highrisk_in_place(summary):
-    tampering = [t for t in summary["workflows"]["access_control_tests"] if "PIPEDA.HighRisk_present_after" in t]
+    tampering = [
+        t
+        for t in summary["workflows"]["access_control_tests"]
+        if "PIPEDA.HighRisk_present_after" in t
+    ]
     assert len(tampering) == 2 and all(t["PIPEDA.HighRisk_present_after"] for t in tampering)
 
 
 EXPECTED_WAREHOUSE = [
     # (role, query, expected result prefix)
-    ("marketing_analyst", "SELECT email FROM governed_marketing_analyst.dim_customer LIMIT 1", "OK: "),
-    ("marketing_analyst", "SELECT email FROM governed_marketing_analyst.marketing_campaign_audience LIMIT 1", "OK: "),
-    ("marketing_analyst", "SELECT count(*) FROM governed_marketing_analyst.marketing_campaign_audience", "OK: "),
-    ("marketing_analyst", "SELECT email FROM dw.dim_customer LIMIT 1", "DENIED/ERROR: permission denied"),
-    ("marketing_analyst", "SELECT full_name FROM governed_marketing_analyst.aml_large_cash_txn LIMIT 1", "OK: "),
-    ("fraud_analyst", "SELECT full_name FROM governed_fraud_analyst.aml_large_cash_txn LIMIT 1", "OK: "),
-    ("fraud_analyst", "SELECT account_number FROM governed_fraud_analyst.dim_account LIMIT 1",
-     'DENIED/ERROR: column "account_number" does not exist'),
+    (
+        "marketing_analyst",
+        "SELECT email FROM governed_marketing_analyst.dim_customer LIMIT 1",
+        "OK: ",
+    ),
+    (
+        "marketing_analyst",
+        "SELECT email FROM governed_marketing_analyst.marketing_campaign_audience LIMIT 1",
+        "OK: ",
+    ),
+    (
+        "marketing_analyst",
+        "SELECT count(*) FROM governed_marketing_analyst.marketing_campaign_audience",
+        "OK: ",
+    ),
+    (
+        "marketing_analyst",
+        "SELECT email FROM dw.dim_customer LIMIT 1",
+        "DENIED/ERROR: permission denied",
+    ),
+    (
+        "marketing_analyst",
+        "SELECT full_name FROM governed_marketing_analyst.aml_large_cash_txn LIMIT 1",
+        "OK: ",
+    ),
+    (
+        "fraud_analyst",
+        "SELECT full_name FROM governed_fraud_analyst.aml_large_cash_txn LIMIT 1",
+        "OK: ",
+    ),
+    (
+        "fraud_analyst",
+        "SELECT account_number FROM governed_fraud_analyst.dim_account LIMIT 1",
+        'DENIED/ERROR: column "account_number" does not exist',
+    ),
 ]
 
 
 @pytest.mark.parametrize("source", ["summary", "enforcement"])
 def test_warehouse_access_checks(summary, load, source):
-    checks = summary["enforcement_checks"] if source == "summary" else load("enforcement.json")["checks"]
+    checks = (
+        summary["enforcement_checks"] if source == "summary" else load("enforcement.json")["checks"]
+    )
     assert len(checks) == len(EXPECTED_WAREHOUSE)
-    for check, (role, query, prefix) in zip(checks, EXPECTED_WAREHOUSE):
+    for check, (role, query, prefix) in zip(checks, EXPECTED_WAREHOUSE, strict=True):
         assert (check["role"], check["query"]) == (role, query)
         assert check["result"].startswith(prefix), check
 
 
 def test_marketing_analyst_denied_raw_dim_customer_email(summary):
-    check = next(c for c in summary["enforcement_checks"]
-                 if c["role"] == "marketing_analyst" and c["query"] == "SELECT email FROM dw.dim_customer LIMIT 1")
+    check = next(
+        c
+        for c in summary["enforcement_checks"]
+        if c["role"] == "marketing_analyst"
+        and c["query"] == "SELECT email FROM dw.dim_customer LIMIT 1"
+    )
     assert check["result"] == "DENIED/ERROR: permission denied for schema dw"
 
 
 def test_marketing_sees_pseudonymised_email_in_dim_customer(summary):
     check = summary["enforcement_checks"][0]
     value = check["result"].removeprefix("OK: ").removesuffix("...")
-    assert "@" not in value and all(ch in "0123456789abcdef" for ch in value)   # md5 hex
+    assert "@" not in value and all(ch in "0123456789abcdef" for ch in value)  # md5 hex
 
 
 def test_consent_row_filter_drops_withdrawn_customers(summary):
     # countInSet=611 marketing-flagged rows in the mart, 556 left after the consent filter: 55 withdrawn.
-    flag = next(t for t in summary["data_quality"] if t["test"] == "p4_3_consent_marketing_flag_true")
+    flag = next(
+        t for t in summary["data_quality"] if t["test"] == "p4_3_consent_marketing_flag_true"
+    )
     count = next(c for c in summary["enforcement_checks"] if "count(*)" in c["query"])
     assert flag["result"] == "Found countInSet=611."
     assert count["result"].startswith("OK: 556")
@@ -167,5 +221,7 @@ def test_enforcement_decisions(load):
     decisions = {(d["role"], d["source"]): d for d in load("enforcement.json")["decisions"]}
     assert decisions[("fraud_analyst", "dw.dim_account")]["dropped"] == ["account_number"]
     assert "email" in decisions[("marketing_analyst", "dw.dim_customer")]["pseudonymised"]
-    assert decisions[("marketing_analyst", "mart.marketing_campaign_audience")]["consent_row_filter"]
+    assert decisions[("marketing_analyst", "mart.marketing_campaign_audience")][
+        "consent_row_filter"
+    ]
     assert decisions[("fraud_analyst", "mart.aml_large_cash_txn")]["pseudonymised"] == []

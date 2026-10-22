@@ -1,0 +1,21 @@
+# Git pre-commit hooks. Set up once per clone:
+#   pip install -r poc/requirements-dev.txt
+#   pre-commit install
+# Run on every file by hand with `pre-commit run --all-files`.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.1   # keep in step with ruff in poc/requirements-dev.txt
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: unit-tests
+        name: unit tests (pytest poc/tests/unit)
+        entry: python -m pytest poc/tests/unit -q
+        language: python
+        additional_dependencies: [pytest==8.3.3]
+        types: [python]          # only when a commit touches Python files
+        pass_filenames: false

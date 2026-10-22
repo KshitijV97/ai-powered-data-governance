@@ -4,7 +4,7 @@ The POC has two pytest suites under [`poc/tests/`](../poc/tests/). Neither needs
 
 | Suite | Path | What it checks | Runs in CI |
 |---|---|---|---|
-| Unit | `poc/tests/unit/` | Pure functions in `poc/toolbox/poc/`: recognizer regexes, synthetic data generators, precision/recall/F1 maths, sensitivity roll-up, ground-truth labels | Yes, on every push and pull request ([`tests.yml`](../.github/workflows/tests.yml)) |
+| Unit | `poc/tests/unit/` | Pure functions in `poc/toolbox/poc/`: recognizer regexes, synthetic data generators, precision/recall/F1 maths, sensitivity roll-up, ground-truth labels | Yes, on every push and pull request ([`tests.yml`](../.github/workflows/tests.yml)), and in the pre-commit hook |
 | Integration | `poc/tests/integration/` | The evidence of a completed run in `poc/results/`: F1 scores, data-quality failures, catalogue and warehouse access checks | No |
 
 These are **code tests**. They are separate from the PIPEDA data-quality tests (`p4_*`) that the POC registers in OpenMetadata: those are compliance checks on the synthetic data and are *meant* to fail on the planted defects (see [Results](results.md)).
@@ -15,7 +15,7 @@ These are **code tests**. They are separate from the PIPEDA data-quality tests (
 pip install -r poc/requirements-dev.txt
 ```
 
-That installs pytest only. The unit tests never connect to Postgres or OpenMetadata, so when `psycopg`, `requests` or `PyYAML` are not installed, [`poc/tests/conftest.py`](../poc/tests/conftest.py) replaces them with empty stand-in modules. The same conftest puts `poc/toolbox` on `sys.path`, so tests import `poc.<module>` just as the toolbox image does.
+That installs pytest, plus Ruff and pre-commit for the Git hook that runs the unit tests before each commit (see [Contributing](../CONTRIBUTING.md#code-style-and-pre-commit-hook)). The unit tests never connect to Postgres or OpenMetadata, so when `psycopg`, `requests` or `PyYAML` are not installed, [`poc/tests/conftest.py`](../poc/tests/conftest.py) replaces them with empty stand-in modules. The same conftest puts `poc/toolbox` on `sys.path`, so tests import `poc.<module>` just as the toolbox image does.
 
 ## Running
 

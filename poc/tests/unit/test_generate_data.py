@@ -28,7 +28,9 @@ def seeded_rng(monkeypatch):
     monkeypatch.setattr(gd, "rng", random.Random(config.SEED))
 
 
-@pytest.mark.parametrize("prefix,expected", [("7992739871", "79927398713"), ("4", "42"), ("0", "00")])
+@pytest.mark.parametrize(
+    "prefix,expected", [("7992739871", "79927398713"), ("4", "42"), ("0", "00")]
+)
 def test_luhn_complete_known_values(prefix, expected):
     assert gd.luhn_complete(prefix) == expected
 
@@ -82,11 +84,21 @@ def test_generate_differs_for_other_seed(monkeypatch):
 
 def test_generate_shape():
     data = gd.generate(n_customers=40)
-    assert set(data) == {"branches", "customers", "consents", "accounts", "cards", "docs", "tickets",
-                         "txns", "legacy", "fx"}
+    assert set(data) == {
+        "branches",
+        "customers",
+        "consents",
+        "accounts",
+        "cards",
+        "docs",
+        "tickets",
+        "txns",
+        "legacy",
+        "fx",
+    }
     assert len(data["customers"]) == 40
-    assert len(data["consents"]) == 40 * 5            # five consent purposes per customer
-    assert len(data["docs"]) == 40                    # one identity document per customer
+    assert len(data["consents"]) == 40 * 5  # five consent purposes per customer
+    assert len(data["docs"]) == 40  # one identity document per customer
     assert len(data["branches"]) == 20
     assert len(data["legacy"]) == 400
     for card in data["cards"]:

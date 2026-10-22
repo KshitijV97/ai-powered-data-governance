@@ -1,3 +1,5 @@
-# Test-only dependencies (not installed in the toolbox image).
-# The unit tests stub psycopg/requests/PyYAML when they are absent, so pytest is all CI needs.
+# Development dependencies (not installed in the toolbox image).
+# The unit tests stub psycopg/requests/PyYAML when they are absent, so pytest is all they need.
 pytest==8.3.3
+ruff==0.17.1        # keep in step with rev in .pre-commit-config.yaml
+pre-commit==4.7.0

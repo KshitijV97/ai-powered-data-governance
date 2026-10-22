@@ -68,6 +68,13 @@ def _has(r: dict, prefix: str) -> bool:
     return any(t["tagFQN"].startswith(prefix) for t in r["tags"])
 
 
+def _exact_class_match(r: dict) -> bool:
+    expected = LABEL_TO_PIPEDA[r["truth"]]
+    if expected is None:
+        return not _has(r, "PIPEDA.") or _has(r, "PIPEDA.NonPersonal")
+    return _has(r, f"PIPEDA.{expected}")
+
+
 def evaluate(rows: list[dict]) -> dict:
     res = {
         "columns_total": len(rows),
@@ -77,9 +84,7 @@ def evaluate(rows: list[dict]) -> dict:
             rows, lambda r: _has(r, "PIPEDA.HighRisk") or _has(r, "PIPEDA.DirectIdentifier")),
     }
     # exact-class agreement for the 5-level PIPEDA scheme
-    agree = sum(1 for r in rows if r["truth"] != "?" and (
-        (LABEL_TO_PIPEDA[r["truth"]] is None and not _has(r, "PIPEDA.") or _has(r, "PIPEDA.NonPersonal"))
-        or (LABEL_TO_PIPEDA[r["truth"]] and _has(r, f'PIPEDA.{LABEL_TO_PIPEDA[r["truth"]]}'))))
+    agree = sum(1 for r in rows if r["truth"] != "?" and _exact_class_match(r))
     res["pipeda_exact_class_accuracy"] = round(agree / max(1, sum(1 for r in rows if r["truth"] != "?")), 3)
     res["high_risk_recall"] = {
         "ootb_pii_sensitive": _recall_of(rows, "H", lambda r: _has(r, "PII.Sensitive")),

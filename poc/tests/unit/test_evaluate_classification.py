@@ -93,7 +93,5 @@ def test_evaluate_empty():
     assert res["high_risk_recall"]["pipeda_highrisk"] == "0/0"
 
 
-@pytest.mark.xfail(strict=True, reason="operator precedence in evaluate(): any PIPEDA.NonPersonal tag counts as "
-                                       "an exact-class match, whatever the ground truth")
 def test_evaluate_nonpersonal_tag_on_high_risk_column_is_not_a_match():
     assert evaluate([row("H", "PIPEDA.NonPersonal")])["pipeda_exact_class_accuracy"] == 0.0

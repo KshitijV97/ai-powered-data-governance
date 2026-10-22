@@ -3,7 +3,17 @@
 Technical documentation for the **Borealis Bank PIPEDA governance proof of concept** (GNG/ELG 5301, uOttawa, Fall 2026).
 The bank is fictional and all data is synthetic.
 
-The top-level [`README.md`](../README.md) gives the one-paragraph summary and [`poc/README.md`](../poc/README.md) the quick-start. These pages go deeper.
+The top-level [`README.md`](../README.md) gives the summary and [`poc/README.md`](../poc/README.md) the quick-start. These pages go deeper. New to the project? Start with the [research overview](research.md), then [architecture](architecture.md) and [results](results.md).
+
+### Research
+
+| Page | Read it when you want to know… |
+|---|---|
+| [Research overview](research.md) | the research question, scope, method (literature review + POC) and the answer in brief |
+| [PIPEDA principle mapping](pipeda-mapping.md) | for each of the ten principles: the control, where it is implemented and which evidence file proves it |
+| [Report guide](report.md) | how the report is structured, how to build it, and what must be finished before submission |
+
+### Proof of concept
 
 | Page | Read it when you want to know… |
 |---|---|
@@ -17,6 +27,13 @@ The top-level [`README.md`](../README.md) gives the one-paragraph summary and [`
 | [AI assistant (MCP)](mcp.md) | how the OpenMetadata MCP server is queried and the security caveats |
 | [Results and findings](results.md) | the numbers from the last run and the product limitations found |
 | [Operations guide](operations.md) | configuration, running, resuming, resetting, troubleshooting and extending |
+
+### Reference
+
+| Page | Read it when you want to know… |
+|---|---|
+| [Glossary](glossary.md) | what a privacy, data or OpenMetadata term means |
+| [Contributing](../CONTRIBUTING.md) | the commit message conventions and branch workflow |
 
 ## The whole project on one page
 
@@ -52,6 +69,7 @@ flowchart TD
     root --> poc["poc/"]
     root --> report["report/<br/>main.tex, references.bib, main.pdf"]
     root --> deliv["deliverables/<br/>proposal .docx"]
+    root --> refs["references/papers/<br/>paper index (PDFs git-ignored)"]
     poc --> omc["openmetadata/<br/>official compose file (unmodified)"]
     poc --> overlay["docker-compose.poc.yml<br/>POC overlay"]
     poc --> bankdb["bank-db/init/<br/>roles + schemas"]

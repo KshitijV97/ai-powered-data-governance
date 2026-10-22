@@ -1,7 +1,9 @@
 # --- OS / editor ---
 .DS_Store
 Thumbs.db
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 .claude/settings.local.json
@@ -24,6 +26,7 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+.ruff_cache/
 
 # --- LaTeX build artifacts (main.pdf stays tracked) ---
 report/*.aux

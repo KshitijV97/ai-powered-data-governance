@@ -35,6 +35,10 @@ def test_keys_are_db_schema_table_column():
 
 def test_known_high_risk_columns():
     labels = gt.labels()
-    for key in [("core_banking", "core", "customer", "sin"), ("core_banking", "core", "card", "card_number"),
-                ("core_banking", "core", "card", "cvv"), ("core_banking", "ops", "legacy_member_import", "fld_02")]:
+    for key in [
+        ("core_banking", "core", "customer", "sin"),
+        ("core_banking", "core", "card", "card_number"),
+        ("core_banking", "core", "card", "cvv"),
+        ("core_banking", "ops", "legacy_member_import", "fld_02"),
+    ]:
         assert labels[key] == "H"

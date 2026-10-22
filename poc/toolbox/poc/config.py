@@ -22,10 +22,12 @@ OM_ADMIN_PASSWORD = os.getenv("OM_ADMIN_PASSWORD", "admin")
 OLTP_SERVICE = "borealis_core_banking_oltp"
 OLAP_SERVICE = "borealis_enterprise_dw_olap"
 
-WORK_DIR = Path(os.getenv("POC_WORK_DIR", "/work"))       # mounted volume, git-ignored
+WORK_DIR = Path(os.getenv("POC_WORK_DIR", "/work"))  # mounted volume, git-ignored
 RESULTS_DIR = Path(os.getenv("POC_RESULTS_DIR", "/results"))
 
 
 def dsn(database: str, user: str | None = None, password: str | None = None) -> str:
-    return (f"host={BANK_DB_HOST} port={BANK_DB_PORT} dbname={database} "
-            f"user={user or BANK_DB_ADMIN_USER} password={password or BANK_DB_ADMIN_PASSWORD}")
+    return (
+        f"host={BANK_DB_HOST} port={BANK_DB_PORT} dbname={database} "
+        f"user={user or BANK_DB_ADMIN_USER} password={password or BANK_DB_ADMIN_PASSWORD}"
+    )

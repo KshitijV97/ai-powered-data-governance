@@ -7,7 +7,57 @@ GNG/ELG 5301 team research project (University of Ottawa, Fall 2026):
 
 The project combines a structured literature review with a reproducible proof of concept (POC). The POC builds a fictional bank, "Borealis Bank of Canada", on synthetic data, governs it with OpenMetadata 2.0.5, and measures what the AI features get right and wrong.
 
-**Headline results:** AI auto-classification F1 rose from **0.783** out of the box to **0.943** with Canada-tuned recognizers and **1.000** after one round of steward feedback (145 columns). PIPEDA data-quality tests caught all five planted defects (consent, retention, stored CVVs, postal codes). Details: [Results and findings](docs/results.md).
+## What the project does
+
+Banks copy customer data from the systems that collect it into warehouses and marts for marketing, anti-money-laundering and analytics. Every copy is personal information under PIPEDA, yet most banks cannot say which columns hold it, why it is kept, who may read it, or when it must be deleted. This project tests whether an open-source metadata platform with AI features can close that gap, and what people still have to do.
+
+The proof of concept runs the full governance cycle on a realistic bank, end to end, with one command:
+
+1. **Builds the bank.** It generates 1 500 synthetic customers with accounts, cards, consents and transactions in an operational database (OLTP), then loads them through a nightly-style ETL into a star-schema warehouse with marketing and AML marts (OLAP). It plants the kinds of defects a privacy programme should catch: withdrawn consent ignored by the ETL, customers kept past retention, stored card CVVs and malformed postal codes.
+2. **Catalogues it.** OpenMetadata ingests both databases, profiles them and records column-level lineage, so every copy of a customer's data can be traced.
+3. **Finds personal information with AI.** Auto-classification (Microsoft Presidio and spaCy) scans column values and tags them. The POC adds Canadian recognizers (SIN, postal codes, account numbers, Ontario driver's licences, passports) and scores every run against a hand-labelled ground truth of 145 columns.
+4. **Keeps people in charge.** Data stewards correct false positives through a feedback workflow, and the Chief Privacy Officer approves glossary terms. Every decision leaves an audit trail.
+5. **Expresses PIPEDA as metadata.** Tables get owners, domains, processing purposes, retention periods and sensitivity tags, and each of the ten fair-information principles maps to a concrete control.
+6. **Tests compliance continuously.** Data-quality tests named after the principle they check (for example `p4_3_consent_not_withdrawn`) run against the real data and open incidents when they fail.
+7. **Enforces access.** Tag-based policies restrict the catalogue, and masked views and grants generated from the same tags protect the warehouse itself.
+8. **Answers privacy questions.** An AI assistant queries the catalogue through the Model Context Protocol (MCP) server, for example "which tables hold high-risk identifiers?" or "where does a customer's e-mail address flow?".
+9. **Produces evidence.** Every step writes results to [`poc/results/`](poc/results/), which feed a PIPEDA compliance summary and the research report.
+
+```mermaid
+flowchart TB
+    subgraph S1["1 · Fictional bank (synthetic data)"]
+        OLTP[("Core banking<br/>OLTP")] -- "nightly ETL" --> OLAP[("Warehouse + marts<br/>OLAP")]
+    end
+
+    subgraph S2["2 · OpenMetadata 2.0.5"]
+        Cat["Catalogue<br/>schemas · profiles · column lineage"]
+        AI["AI auto-classification<br/>Presidio + Canadian recognizers"]
+        Gov["PIPEDA as metadata<br/>sensitivity · purpose · retention · owners"]
+        Cat --> AI --> Gov
+    end
+
+    subgraph S3["3 · Accountable people"]
+        Steward["Data steward<br/>corrects wrong tags"]
+        CPO["Chief Privacy Officer<br/>approves terms and rules"]
+    end
+
+    subgraph S4["4 · PIPEDA controls in action"]
+        DQ["Compliance tests<br/>one per principle"]
+        Views["Masked views + grants<br/>in the warehouse"]
+        MCP["AI assistant answers<br/>privacy questions (MCP)"]
+    end
+
+    Ev[["5 · Evidence and findings<br/>poc/results/ → research report"]]
+
+    S1 -- "ingest + profile" --> Cat
+    AI <-. "review + feedback" .-> Steward
+    CPO -. "approvals" .-> Gov
+    Gov --> DQ & Views & MCP
+    DQ -. "checks the real data" .-> S1
+    DQ & Views & MCP --> Ev
+```
+
+**Headline results:** AI auto-classification F1 rose from **0.783** out of the box to **0.943** with Canada-tuned recognizers and **1.000** after one round of steward feedback (145 columns). The PIPEDA data-quality tests caught every planted defect: 55 customers still marketed to after withdrawing consent, 38 customers kept past retention in both the OLTP and the warehouse, 1 239 stored CVVs and 17 malformed postal codes. The overall finding is that the platform works as a *supervised* control system: it is strongest at inventory, purpose and lineage, can detect consent, retention and accuracy problems but not fix them, and protects the database only when its tags are wired into enforcement. Details: [Results and findings](docs/results.md) and [Research overview](docs/research.md#answer-in-brief).
 
 ## Quick start
 

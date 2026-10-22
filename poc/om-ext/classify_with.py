@@ -23,7 +23,9 @@ class MultiClassificationWorkflow(AutoClassificationWorkflow):
     classification_names: list[str] = []
 
     def _get_pii_processor(self):
-        return create_pii_processor(self.metadata, self.config, classification_filter=self.classification_names)
+        return create_pii_processor(
+            self.metadata, self.config, classification_filter=self.classification_names
+        )
 
 
 def main() -> None:

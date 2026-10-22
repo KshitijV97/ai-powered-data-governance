@@ -7,8 +7,12 @@ from poc.post_ingestion import SENSITIVITY_ORDER, rollup
 
 
 def table(*column_tags):
-    return {"columns": [{"name": f"c{i}", "tags": [{"tagFQN": t} for t in tags]}
-                        for i, tags in enumerate(column_tags)]}
+    return {
+        "columns": [
+            {"name": f"c{i}", "tags": [{"tagFQN": t} for t in tags]}
+            for i, tags in enumerate(column_tags)
+        ]
+    }
 
 
 def rolled(t):
@@ -29,17 +33,24 @@ def test_rollup_order_is_highrisk_first():
 
 def test_rollup_label_is_automated_classification():
     (label,) = rollup(table(["PIPEDA.DirectIdentifier"]))
-    assert label == {"tagFQN": "PIPEDA.DirectIdentifier", "source": "Classification",
-                     "labelType": "Automated", "state": "Confirmed"}
+    assert label == {
+        "tagFQN": "PIPEDA.DirectIdentifier",
+        "source": "Classification",
+        "labelType": "Automated",
+        "state": "Confirmed",
+    }
 
 
-@pytest.mark.parametrize("cols", [
-    (),
-    ([],),
-    (["PII.Sensitive"], ["Tier.Tier1"]),
-    (["PIPEDAPurpose.Marketing"],),
-    (["PIPEDA.NonPersonal"], []),
-])
+@pytest.mark.parametrize(
+    "cols",
+    [
+        (),
+        ([],),
+        (["PII.Sensitive"], ["Tier.Tier1"]),
+        (["PIPEDAPurpose.Marketing"],),
+        (["PIPEDA.NonPersonal"], []),
+    ],
+)
 def test_rollup_no_pipeda_column_tags_means_no_table_tag(cols):
     assert rollup(table(*cols)) == []
 
@@ -49,15 +60,21 @@ def test_rollup_ignores_non_pipeda_tags_next_to_pipeda_ones():
     assert rolled(t) == ["PIPEDA.Financial"]
 
 
-@pytest.mark.parametrize("tags,expected", [
-    ([], None),
-    ([{"tagFQN": "PII.Sensitive"}], None),
-    ([{"tagFQN": "PIPEDA.HighRisk"}], "HighRisk"),
-    ([{"tagFQN": "PII.Sensitive"}, {"tagFQN": "PIPEDA.DirectIdentifier"}], "DirectIdentifier"),
-    ([{"tagFQN": "PIPEDA.QuasiIdentifier", "source": "Classification"}], "QuasiIdentifier"),
-    ([{"tagFQN": "PIPEDA.Consent", "source": "Glossary"}], None),
-    ([{"tagFQN": "PIPEDA.Consent", "source": "Glossary"}, {"tagFQN": "PIPEDA.Financial"}], "Financial"),
-])
+@pytest.mark.parametrize(
+    "tags,expected",
+    [
+        ([], None),
+        ([{"tagFQN": "PII.Sensitive"}], None),
+        ([{"tagFQN": "PIPEDA.HighRisk"}], "HighRisk"),
+        ([{"tagFQN": "PII.Sensitive"}, {"tagFQN": "PIPEDA.DirectIdentifier"}], "DirectIdentifier"),
+        ([{"tagFQN": "PIPEDA.QuasiIdentifier", "source": "Classification"}], "QuasiIdentifier"),
+        ([{"tagFQN": "PIPEDA.Consent", "source": "Glossary"}], None),
+        (
+            [{"tagFQN": "PIPEDA.Consent", "source": "Glossary"}, {"tagFQN": "PIPEDA.Financial"}],
+            "Financial",
+        ),
+    ],
+)
 def test_column_sensitivity(tags, expected):
     assert column_sensitivity({"name": "c", "tags": tags}) == expected
 

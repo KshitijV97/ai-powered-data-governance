@@ -1,0 +1,26 @@
+# Ruff: linter and formatter for the POC's Python code.
+# Run `ruff check --fix .` and `ruff format .` from the repo root,
+# or let the pre-commit hook do it (see CONTRIBUTING.md).
+
+target-version = "py312"   # same as the toolbox image
+line-length = 100
+extend-exclude = ["poc/work", "poc/docker-volume"]
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "SIM",  # flake8-simplify
+]
+# The formatter owns line length; E501 would only flag long strings and comments.
+ignore = ["E501"]
+
+[lint.isort]
+known-first-party = ["poc"]
+
+[format]
+quote-style = "double"

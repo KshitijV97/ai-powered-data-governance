@@ -22,8 +22,10 @@ def results_dir() -> Path:
 def pytest_collection_modifyitems(config, items):
     if (results_dir() / "summary.json").exists():
         return
-    skip = pytest.mark.skip(reason=f"no completed POC run: {results_dir() / 'summary.json'} not found "
-                                   "(run poc/scripts/run_poc.sh or set POC_TEST_RESULTS_DIR)")
+    skip = pytest.mark.skip(
+        reason=f"no completed POC run: {results_dir() / 'summary.json'} not found "
+        "(run poc/scripts/run_poc.sh or set POC_TEST_RESULTS_DIR)"
+    )
     for item in items:
         if "integration" in item.keywords:
             item.add_marker(skip)
@@ -33,6 +35,7 @@ def pytest_collection_modifyitems(config, items):
 def load():
     def _load(name: str):
         return json.loads((results_dir() / name).read_text())
+
     return _load
 
 

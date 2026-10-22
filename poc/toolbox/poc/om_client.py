@@ -26,7 +26,7 @@ class OpenMetadata:
 
     # ------------------------------------------------------------ auth
     @classmethod
-    def login(cls, email: str = config.OM_ADMIN_EMAIL, password: str = config.OM_ADMIN_PASSWORD) -> "OpenMetadata":
+    def login(cls, email: str = config.OM_ADMIN_EMAIL, password: str = config.OM_ADMIN_PASSWORD) -> OpenMetadata:
         om = cls()
         r = om.s.post(f"{om.api}/v1/users/login",
                       json={"email": email, "password": base64.b64encode(password.encode()).decode()})

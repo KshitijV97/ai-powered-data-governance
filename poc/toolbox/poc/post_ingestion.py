@@ -12,7 +12,7 @@ import sys
 from poc import config
 from poc import governance_model as gm
 from poc.etl_to_dw import DW_LINEAGE, LINEAGE
-from poc.om_client import OpenMetadata, OMError
+from poc.om_client import OMError, OpenMetadata
 
 DB_SERVICE = {"core_banking": config.OLTP_SERVICE, "bank_dw": config.OLAP_SERVICE}
 SENSITIVITY_ORDER = ["HighRisk", "DirectIdentifier", "QuasiIdentifier", "Financial"]

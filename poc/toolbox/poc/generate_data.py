@@ -15,7 +15,6 @@ OpenMetadata controls have something to detect:
 
 from __future__ import annotations
 
-import io
 import random
 from datetime import date, datetime, timedelta
 
@@ -174,7 +173,7 @@ def generate(n_customers: int = config.N_CUSTOMERS) -> dict:
                 cards.append((card_id, account_id, synthetic_pan(), rng.randint(1, 12), rng.randint(2026, 2031),
                               f"{rng.randint(0, 999):03d}", "BLOCKED" if closed else "ACTIVE"))
 
-        doc_id += 1
+        doc_id += 1  # noqa: SIM113 - one running ID counter per table, like account_id and card_id
         if rng.random() < 0.5:
             docs.append((doc_id, cid, "PASSPORT", f"{rng.choice('ABGHJKLMNP')}{rng.choice('ABCDEFGHJK')}{rng.randint(100000, 999999)}",
                          "CANADA", date(2027, 1, 1) + timedelta(days=rng.randint(0, 3000)), created, "emp_" + str(rng.randint(100, 999))))

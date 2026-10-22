@@ -17,9 +17,9 @@ import time
 
 from poc import config
 from poc import governance_model as gm
-from poc.om_client import OpenMetadata, OMError
+from poc.bootstrap_governance import PERSONA_PASSWORD  # local test accounts
+from poc.om_client import OMError, OpenMetadata
 
-from poc.bootstrap_governance import PERSONA_PASSWORD  # noqa: E402  local test accounts
 AUDIT = config.RESULTS_DIR / "workflow_audit.json"
 
 

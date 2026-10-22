@@ -138,7 +138,7 @@ EXPECTED_WAREHOUSE = [
 def test_warehouse_access_checks(summary, load, source):
     checks = summary["enforcement_checks"] if source == "summary" else load("enforcement.json")["checks"]
     assert len(checks) == len(EXPECTED_WAREHOUSE)
-    for check, (role, query, prefix) in zip(checks, EXPECTED_WAREHOUSE):
+    for check, (role, query, prefix) in zip(checks, EXPECTED_WAREHOUSE, strict=True):
         assert (check["role"], check["query"]) == (role, query)
         assert check["result"].startswith(prefix), check
 

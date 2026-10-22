@@ -119,7 +119,7 @@ def main() -> None:
     mcp = load("mcp_transcript.json")
 
     inventory = []
-    for key, (domain, owner, purposes, retention, tier) in gm.TABLE_METADATA.items():
+    for key, (domain, owner, purposes, _retention, tier) in gm.TABLE_METADATA.items():
         t = om.table(fqn(key), fields="tags,owners,domains")
         if t:
             inventory.append({"table": key, "domain": domain, "owner": owner, "purposes": purposes,

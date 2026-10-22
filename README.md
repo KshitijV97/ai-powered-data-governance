@@ -95,6 +95,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 | [AI assistant (MCP)](docs/mcp.md) | Querying the catalogue through the MCP server; security caveats |
 | [Results and findings](docs/results.md) | Numbers from the last run, PIPEDA scorecard, product limitations found |
 | [Operations guide](docs/operations.md) | Prerequisites, configuration, commands, troubleshooting, extending, upgrading |
+| [Testing](docs/testing.md) | Unit and integration test suites, how to run them, what they check |
 
 ### Reference
 

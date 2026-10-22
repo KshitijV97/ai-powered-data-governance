@@ -27,6 +27,7 @@ The top-level [`README.md`](../README.md) gives the summary and [`poc/README.md`
 | [AI assistant (MCP)](mcp.md) | how the OpenMetadata MCP server is queried and the security caveats |
 | [Results and findings](results.md) | the numbers from the last run and the product limitations found |
 | [Operations guide](operations.md) | configuration, running, resuming, resetting, troubleshooting and extending |
+| [Testing](testing.md) | how to run the unit and integration test suites and what they check |
 
 ### Reference
 

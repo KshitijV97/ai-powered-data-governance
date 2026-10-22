@@ -140,6 +140,8 @@ flowchart LR
 
 When adding a table, also label every column in `ground_truth.py`; otherwise it shows as `?` and is excluded from the metrics.
 
+After any change, run `pytest poc/tests/unit` (no Docker needed); after a full run, `pytest -m integration` checks the new results. See [Testing](testing.md).
+
 ## Upgrading OpenMetadata
 
 1. Replace `openmetadata/docker-compose-openmetadata-postgres.yml` with the official file for the new release.

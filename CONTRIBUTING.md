@@ -28,8 +28,9 @@ This repo follows [Conventional Commits](https://www.conventionalcommits.org/en/
 | `docs` | Documentation and reference lists |
 | `data` | Regenerated POC results or evidence in `poc/results/` |
 | `refactor` | Code restructuring without a behaviour change |
-| `test` | Evaluation or ground-truth changes |
+| `test` | Code tests in `poc/tests/`, evaluation or ground-truth changes |
 | `build` | Docker, compose files, dependencies |
+| `ci` | GitHub Actions workflows |
 | `chore` | Repo housekeeping (`.gitignore`, tooling) |
 
 ### Scopes
@@ -46,6 +47,7 @@ data(poc): regenerate results after Canada-tuned recognizers
 docs(poc): add PIPEDA principle 4.7 mapping to the governance model
 docs(references): add open-access links to the paper index
 chore(repo): ignore LaTeX build artifacts
+test(poc): cover the SIN and postal-code recognizers
 ```
 
 ## Branches

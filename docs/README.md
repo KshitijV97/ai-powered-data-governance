@@ -3,7 +3,14 @@
 Technical documentation for the **Borealis Bank PIPEDA governance proof of concept** (GNG/ELG 5301, uOttawa, Fall 2026).
 The bank is fictional and all data is synthetic.
 
-The top-level [`README.md`](../README.md) gives the one-paragraph summary and [`poc/README.md`](../poc/README.md) the quick-start. These pages go deeper.
+
+### Research
+
+| Page | Read it when you want to know… |
+|---|---|
+| [PIPEDA principle mapping](pipeda-mapping.md) | for each of the ten principles: the control, where it is implemented and which evidence file proves it |
+
+### Proof of concept
 
 | Page | Read it when you want to know… |
 |---|---|
@@ -17,6 +24,13 @@ The top-level [`README.md`](../README.md) gives the one-paragraph summary and [`
 | [AI assistant (MCP)](mcp.md) | how the OpenMetadata MCP server is queried and the security caveats |
 | [Results and findings](results.md) | the numbers from the last run and the product limitations found |
 | [Operations guide](operations.md) | configuration, running, resuming, resetting, troubleshooting and extending |
+
+### Reference
+
+| Page | Read it when you want to know… |
+|---|---|
+| [Glossary](glossary.md) | what a privacy, data or OpenMetadata term means |
+| [Contributing](../CONTRIBUTING.md) | the commit message conventions and branch workflow |
 
 ## The whole project on one page
 
@@ -49,6 +63,7 @@ flowchart LR
 flowchart TD
     root["ai-powered-data-governance/"] --> docs["docs/ (this folder)"]
     root --> poc["poc/"]
+    root --> refs["references/papers/<br/>paper index (PDFs git-ignored)"]
     poc --> omc["openmetadata/<br/>official compose file (unmodified)"]
     poc --> overlay["docker-compose.poc.yml<br/>POC overlay"]
     poc --> bankdb["bank-db/init/<br/>roles + schemas"]

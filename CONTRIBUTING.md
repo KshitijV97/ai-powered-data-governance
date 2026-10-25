@@ -78,6 +78,62 @@ When bumping Ruff, change the version in both `poc/requirements-dev.txt` and the
 **Editor:** the repo ships VS Code settings (format on save with Ruff, pytest test explorer) and recommended extensions in [`.vscode/`](.vscode/); VS Code offers to install them when you open the folder.
 `git blame` skips the bulk reformat commit if you run `git config blame.ignoreRevsFile .git-blame-ignore-revs` (GitHub does this automatically).
 
-## Branches
+## Branching strategy
 
-Work on a short-lived branch (`<name>/<topic>`, e.g. `kshitij/report-discussion`) and open a pull request into `master` so a teammate can review it.
+The repo uses **GitHub Flow**: one long-lived branch, `master`, plus short-lived topic branches that are merged into it through pull requests.
+
+```mermaid
+gitGraph
+    commit id: "master"
+    branch kshitij/report-discussion
+    commit id: "docs(report): …"
+    commit id: "docs(report): …"
+    checkout master
+    branch priya/consent-test
+    commit id: "feat(poc): …"
+    checkout master
+    merge kshitij/report-discussion id: "PR #n"
+    merge priya/consent-test id: "PR #m"
+    commit id: "tag: report-final" type: HIGHLIGHT
+```
+
+### `master`
+
+- `master` is always **working and submittable**: CI is green, `run_poc.sh` runs, and the report builds.
+- Nobody commits or pushes to `master` directly. Every change arrives through a pull request.
+
+### Topic branches
+
+- Branch from an up-to-date `master`: `git switch master && git pull && git switch -c <name>/<topic>`.
+- Name the branch `<name>/<topic>`, using your first name (or the tool's name) and a short kebab-case topic: `kshitij/report-discussion`, `priya/consent-test`. Branches created by Claude Code sessions are named `claude/<topic>`.
+- Keep one topic per branch and keep it short-lived: open the pull request within a few days. Split big work into several pull requests instead of one long-running branch.
+- To pick up changes from `master`, merge it into your branch (`git merge origin/master`). Don't rebase or force-push a branch someone else has checked out.
+
+### Pull requests
+
+1. Push the branch and open a pull request into `master`. Its title follows the commit convention above, e.g. `docs(report): add PIPEDA 4.7 discussion`.
+2. Fill in the pull request template: what changed, why, and how it was checked.
+3. Wait until **CI is green** (`Lint and format`, `Unit tests`). Fix failures on the branch; never skip a check.
+4. Get **one review from a teammate**. Changes to `poc/results/` or the report's findings should be reviewed by whoever owns that section.
+5. Merge with **"Create a merge commit"**, so each Conventional Commit on the branch stays in the history, and **delete the branch** afterwards. A branch whose pull request has been merged is finished: start new work on a new branch from `master`.
+
+### Milestone tags
+
+Tag `master` at each course hand-in so the exact submitted state can be recovered:
+
+```bash
+git tag -a proposal-v1 -m "Team research and project proposal"
+git push origin proposal-v1
+```
+
+Use `proposal-v1`, `report-draft`, `report-final` and `presentation`.
+
+### Recommended GitHub settings (repo owner)
+
+Under *Settings → Branches → Add branch ruleset* for `master`:
+
+- require a pull request before merging, with 1 approval,
+- require the `Lint and format` and `Unit tests` status checks to pass,
+- block force pushes and deletion.
+
+Under *Settings → General → Pull Requests*, tick *Automatically delete head branches*.

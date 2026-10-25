@@ -10,6 +10,7 @@ The top-level [`README.md`](../README.md) gives the summary and [`poc/README.md`
 | Page | Read it when you want to know… |
 |---|---|
 | [Research overview](research.md) | the research question, scope, method (literature review + POC) and the answer in brief |
+| [How OpenMetadata uses AI and ML](openmetadata-ai-features.md) | every AI, LLM and ML feature in OpenMetadata 2.0.5, which pre-trained models and API keys each needs, and what is OSS vs. Collate-only (with sources) |
 | [PIPEDA principle mapping](pipeda-mapping.md) | for each of the ten principles: the control, where it is implemented and which evidence file proves it |
 | [Report guide](report.md) | how the report is structured, how to build it, and what must be finished before submission |
 

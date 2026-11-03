@@ -121,3 +121,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 - All data is synthetic and the bank is fictional; no human-participant data is used.
 - The report is a **draft** prepared with generative-AI assistance. See the AI-use statement (report Appendix D) and the [submission checklist](docs/report.md#before-submission).
 - PIPEDA mappings are the authors' reading of public guidance, not legal advice.
+
+## License
+
+Project-authored software and documentation are licensed under the [MIT License](LICENSE), except for files carrying their own license or attribution notices. Third-party and course materials, including `Project.pdf` and the OpenMetadata Docker Compose file, remain under their respective terms.

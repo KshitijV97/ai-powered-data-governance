@@ -114,3 +114,6 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 
 - All data is synthetic and the bank is fictional; no human-participant data is used.
 - PIPEDA mappings are the authors' reading of public guidance, not legal advice.
+
+## License
+

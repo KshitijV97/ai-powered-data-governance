@@ -88,9 +88,25 @@ An AI-assisted metadata platform can operationalize PIPEDA **as a supervised con
 
 Key numbers: classification F1 rose from **0.783** (out of the box) to **0.943** (Canada-tuned recognizers) to **1.000** (after one round of steward feedback); 6 of 12 PIPEDA data-quality tests failed, finding all 5 planted defects. Details in [Results](results.md).
 
+## Risks of relying on the platform
+
+The report (Section VI) argues that these risks are larger than the individual product defects suggest:
+
+| Risk | Why it matters |
+|---|---|
+| Safeguards fail open | A column the classifier misses has no tag, so it gets no policy, masking or view filter, and nothing flags it |
+| Protection lives outside the product | The warehouse is protected only by the POC's view-and-grant generator; if it drifts from the tags, the catalogue still looks compliant |
+| Inconsistent behaviour weakens audit evidence | The permission debugger said "denied" where the sample-data endpoint allowed access |
+| The catalogue is a high-value target | Sample rows, tags and lineage map where the most sensitive data sits; admin, bot and MCP tokens unlock it |
+| Brittle workarounds, vendor roadmap | The classification fix uses internal classes; several AI engines ship only in the commercial edition; optional LLM features send descriptions to hosted providers |
+| Detection is not remediation | Violations are found but fixed manually; the audit trail is not tamper-evident unless exported |
+
 ## Limitations
 
 - **Optimistic scores:** the same people wrote the data generator, the defects and the recognizers.
+- **Feedback scored on the evaluation set:** the post-feedback F1 of 1.000 shows that known errors can be removed, not that the classifier generalizes; a held-out set of columns would be needed for that.
+- **Planted defects:** the PIPEDA tests were written by the people who planted the defects, so they show the mechanism works, not that it finds unknown defects.
+- **No comparator:** no other catalogue or plain pattern scanner was tested, so the benefit cannot be attributed to OpenMetadata specifically.
 - **Small sample:** 145 columns, 25 positives; one miss moves recall by four points.
 - **Single product and version:** OpenMetadata 2.0.5 open source, default configuration.
 - **Structured data only.**

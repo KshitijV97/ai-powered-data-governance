@@ -1,4 +1,9 @@
-"""Ground-truth sensitivity labels for every column in the synthetic bank.
+"""
+The correct sensitivity label (H/D/Q/F/N) for every column.
+
+This is what F1 is scored against.
+
+Ground-truth sensitivity labels for every column in the synthetic bank.
 
 Because the data is generated, we know exactly which columns hold personal
 information (PI). This lets us measure the precision / recall of
@@ -13,6 +18,40 @@ Labels (Borealis Bank PIPEDA sensitivity scheme, see governance_model.py):
   N  not personal          - keys, codes, timestamps, reference data
 
 Positive class for detection metrics = H or D (what a PII scanner should flag).
+
+Who assigns the labels: a human, by hand.
+
+The POC author wrote the dicts below
+column by column, using (a) knowledge of what generate_data.py puts in each
+column and (b) the H/D/Q/F/N definitions above.
+
+Nothing is learned or computed:
+the labels are hard-coded and must be updated by hand whenever the schema
+changes (add a column -> add its label here).
+
+They are deliberately independent
+of OpenMetadata, so its AI classifier is scored against an answer key it never
+saw (evaluate_classification.py compares the two).
+
+Accountability for the key's
+correctness rests with the author/reviewer; a wrong label here skews the
+precision / recall numbers.
+
+Why not use AI to assign the labels:
+  - Circularity: the thing being measured is an AI classifier. If an AI (or
+    OpenMetadata itself) produced the answer key, its mistakes would be
+    counted as "correct" and F1 would be inflated or meaningless.
+  - A ground truth must be more reliable than what it judges. An AI labeller
+    has its own error rate and can't be checked against anything better.
+  - We already know the answer: the data is synthetic, so the generator
+    defines exactly what each column contains. Reading that is cheap, exact
+    and needs no guessing.
+  - The labels are a small, fixed list (one per column), so manual effort is
+    low while reproducibility and auditability are high: every label is a
+    visible, reviewable line in git, which a PIPEDA-style accountability
+    argument (4.1) and the academic report both need.
+  - AI output can vary between runs or model versions; a hand-written key
+    does not, so results stay comparable over time.
 """
 
 H, D, Q, F, N = "H", "D", "Q", "F", "N"

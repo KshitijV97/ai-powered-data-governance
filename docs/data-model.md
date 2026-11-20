@@ -221,6 +221,35 @@ flowchart LR
     pc["core.customer.postal_code"] --> fsa["dim_customer.postal_fsa"]
 ```
 
+### How the column mappings are reused as lineage
+
+`etl_to_dw.py` holds two parallel descriptions of the same data movement:
+
+1. **`EXTRACTS` and `AGGREGATES` do the work.** They hold the SQL that copies data, for example `first_name || ' ' || last_name` becoming `dw.dim_customer.full_name`.
+2. **`LINEAGE` and `DW_LINEAGE` only describe the work.** They are plain dicts of the form `target column → [source columns]`, for example `"full_name": ["core.customer.first_name", "core.customer.last_name"]`.
+
+The ETL never reads the second structure. `post_ingestion.py lineage` reads it afterwards and publishes it to OpenMetadata ([`post_ingestion.py`](../poc/toolbox/poc/post_ingestion.py)), so the knowledge of which source column feeds which target column is not written a third time somewhere else.
+
+> **Caveat:** `LINEAGE` is maintained by hand next to the SQL and nothing checks that the two agree. If an extract changes and the dict is not updated, the catalogue's lineage is silently wrong. That is acceptable for this POC. In production, parse the SQL or use OpenMetadata's lineage ingestion (query logs, views).
+
+### How OpenMetadata helps with lineage
+
+Lineage is OpenMetadata's record of how data flows between assets: this table was built from those tables, by this pipeline, down to individual columns. The POC publishes it in three steps:
+
+1. **Register the producer.** A pipeline service (`borealis_batch_etl`) and a pipeline entity (`nightly_oltp_to_dw`) with one task per target table.
+2. **Create the edges.** For each source/target table pair, `PUT /v1/lineage` records "source table → target table, via this pipeline".
+3. **Add the column detail.** Each edge carries `columnsLineage`, a list of `{fromColumns: [...], toColumn: ...}`, which makes it column-level. For example, `core.customer.email` maps to both `dw.dim_customer.email` and `mart.marketing_campaign_audience.email`.
+
+What this gives you without writing more code:
+
+| Capability | How it shows up |
+|---|---|
+| Graph in the UI | A table's Lineage tab shows upstream and downstream tables and, when expanded, columns |
+| Impact and root-cause analysis | If `core.customer.email` is wrong or changes, see every warehouse and mart column it reaches; trace bad mart data back to its source |
+| PIPEDA 4.9, Individual Access | "Where did this customer's e-mail end up?" is answered by following edges from the source column, including the marketing mart where the planted consent bug lives |
+| Tag-based reasoning | `PIPEDA.HighRisk` and `DirectIdentifier` tags sit on the same columns lineage connects, so you can ask whether a high-risk column leaks into an analytical mart |
+| AI / MCP access | [`mcp_demo.py`](../poc/toolbox/poc/mcp_demo.py) calls the `get_entity_lineage` tool, so an assistant can answer lineage questions from the catalogue (see [MCP](mcp.md)) |
+
 ## Planted defects
 
 The generator and ETL plant problems on purpose so the governance controls have something real to find:

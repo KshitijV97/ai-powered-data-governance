@@ -8,6 +8,15 @@ Every toolbox module talks to OpenMetadata through this one class:
 
 It wraps one `requests.Session` (so the auth header is set once) and turns
 any unexpected HTTP status into an `OMError` with the response body attached.
+
+Script vs. GUI: the OpenMetadata web UI (http://localhost:8585) is itself just
+a client of the same REST API (`config.OM_API`, i.e. /api/v1/...). Anything
+this class does can also be done by hand in the UI after logging in as the
+admin (default admin@open-metadata.org / admin): create teams, roles and
+glossary terms, schedule ingestion/classification agents, tag columns, approve
+workflow tasks. The scripts exist so the POC is repeatable with one command and
+its results can be measured; the GUI is for inspecting what they produced.
+Both see the same state, so changes made in either are visible in the other.
 """
 
 from __future__ import annotations

@@ -1,4 +1,8 @@
-"""Batch ETL: core_banking (OLTP) -> bank_dw (OLAP star schema + marts).
+"""
+Copies OLTP data into the warehouse.
+Its column mappings are reused later as lineage.
+
+Batch ETL: core_banking (OLTP) -> bank_dw (OLAP star schema + marts).
 
 The column mappings below are also published to OpenMetadata as column-level
 lineage (see LINEAGE in this module, used by post_ingestion.py), so the

@@ -19,6 +19,25 @@ PURPOSE_CLASSIFICATION = "PIPEDAPurpose"
 
 # ---------------------------------------------------------------- recognizers
 def _pattern(name, regex, score, context=(), target="content", threshold=0.6, desc=""):
+    """Build one custom regex recognizer in the JSON shape OpenMetadata expects.
+
+    A recognizer is a rule the auto-classification agent runs on every column;
+    when it matches, the column gets the tag the recognizer is attached to
+    (e.g. PIPEDA.HighRisk). This is how the Canada-specific detection (SIN,
+    postal code, ...) is added on top of the out-of-the-box PII recognizers.
+    The dict returned here is dropped into a tag's "recognizers" list and sent
+    to OpenMetadata by bootstrap_governance.
+
+    Arguments:
+      name       unique id; also the base for the display name and pattern name
+      regex      what to match
+      score      confidence (0-1) of a match; a weak pattern gets a low score
+      context    nearby words (e.g. "sin", "insurance") that raise the score
+      target     "content" = test the sampled cell values;
+                 "column_name" = test the column's name instead
+      threshold  minimum final confidence required before the tag is applied
+      desc       human-readable explanation (falls back to the name)
+    """
     return {
         "name": name,
         "displayName": name.replace("_", " ").title(),
@@ -27,12 +46,13 @@ def _pattern(name, regex, score, context=(), target="content", threshold=0.6, de
         "target": target,
         "confidenceThreshold": threshold,
         "recognizerConfig": {
-            "type": "pattern",
+            "type": "pattern",  # regex-based, as opposed to "predefined" (see _predefined)
             "supportedLanguage": "en",
             "patterns": [{"name": f"{name}_p", "regex": regex, "score": score}],
             "regexFlags": {
                 "dotAll": False,
                 "multiline": False,
+                # column names are matched case-insensitively (SIN == sin); cell values are not
                 "ignoreCase": target == "column_name",
             },
             "context": list(context),

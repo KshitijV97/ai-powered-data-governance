@@ -230,9 +230,9 @@ Fill the last column yourselves. That column is the synthesis.
 
 **Rubric asks for:** interpretation in relation to the RQ, showing judgment, considering alternative interpretations.
 
-### 7.1 Evidence bank: POC numbers
+### 7.1 Evidence bank: the POC numbers and facts to build the analysis on
 
-**Classification (145 columns, 25 positives, 7 high-risk):**
+#### 7.1.1 AI auto-classification: how well OpenMetadata found personal information (145 columns, 25 sensitive, 7 high-risk)
 
 | Run | Precision | Recall | F1 | TP | FP | FN | High-risk recall |
 |---|---|---|---|---|---|---|---|
@@ -244,7 +244,7 @@ Fill the last column yourselves. That column is the synthesis.
 - False positives: 3 `city` columns (spaCy location NER).
 - Source: `poc/results/classification_*.json`; figure [`poc/results/figures/classification_comparison.png`](https://github.com/KshitijV97/ai-powered-data-governance/blob/master/poc/results/figures/classification_comparison.png).
 
-**Data-quality tests (12 cases):**
+#### 7.1.2 Data-quality tests: which planted defects the 12 PIPEDA test cases caught
 
 | PIPEDA | Test | Result | Rows |
 |---|---|---|---|
@@ -256,15 +256,17 @@ Fill the last column yourselves. That column is the synthesis.
 | 4.6 | `p4_6_accuracy_email_format` | Failed | 240 (rule wrong: rejects accented letters) |
 | 4.3, 4.4, 4.6, FINTRAC | 6 other tests | Passed | — |
 
-**Access control:**
+#### 7.1.3 Access control: what each persona could see in the catalogue and in the warehouse
 
 - Catalogue: `maya.marketing` 403 on sample data of HighRisk/DirectIdentifier tables, 200 on an aggregate table; 403 on adding or removing tags on `core.customer`; AML analyst and CPO 200 with masked cells.
 - Warehouse (generated views): marketing role sees md5-hashed e-mails where purpose does not match, clear e-mails on the marketing mart, 556 rows instead of 611 (withdrawn customers filtered), denied on raw `dw` schema; fraud role sees clear names on AML mart, `account_number` dropped.
 - Source: [`poc/results/workflow_audit.json`](https://github.com/KshitijV97/ai-powered-data-governance/blob/master/poc/results/workflow_audit.json), [`poc/results/enforcement.json`](https://github.com/KshitijV97/ai-powered-data-governance/blob/master/poc/results/enforcement.json).
 
-**MCP:** 15 tools (11 read, 4 write: `create_entity`, `patch_entity`, `create_lineage`, `create_test_case`); 4 PIPEDA questions answered from catalogue (6 HighRisk tables; downstream lineage of `core.customer`; consent quality status; glossary definition). Source: [`poc/results/mcp_transcript.json`](https://github.com/KshitijV97/ai-powered-data-governance/blob/master/poc/results/mcp_transcript.json).
+#### 7.1.4 AI assistant access (MCP): what an AI agent can read and change in the catalogue
 
-**Product limitations found (OpenMetadata 2.0.5 OSS):**
+15 tools (11 read, 4 write: `create_entity`, `patch_entity`, `create_lineage`, `create_test_case`); 4 PIPEDA questions answered from catalogue (6 HighRisk tables; downstream lineage of `core.customer`; consent quality status; glossary definition). Source: [`poc/results/mcp_transcript.json`](https://github.com/KshitijV97/ai-powered-data-governance/blob/master/poc/results/mcp_transcript.json).
+
+#### 7.1.5 Product limitations found in OpenMetadata 2.0.5 (open source) during the POC
 
 1. `metadata classify` hard-codes the PII classification; custom recognizers ignored (workaround [`poc/om-ext/classify_with.py`](https://github.com/KshitijV97/ai-powered-data-governance/blob/master/poc/om-ext/classify_with.py)).
 2. No built-in recognizers for Canadian identifiers.
@@ -273,14 +275,14 @@ Fill the last column yourselves. That column is the synthesis.
 5. Catalogue policies do not reach the database.
 6. MCP exposes write tools.
 
-**Other facts worth using:**
+#### 7.1.6 Other facts worth using: lineage, the tag choke point, failing open, detection vs remediation
 
 - Lineage in the POC was published by our code from the ETL's declared column mappings; OpenMetadata did not infer it from SQL.
 - AI never changes a control directly; it changes tags, and tags drive policies and generated views. Human review therefore sits at one choke point.
 - Tag-driven safeguards fail open: a missed column gets no tag, no policy, no masking and no alert.
 - Detection is not remediation: no defect was fixed by the platform.
 
-### 7.2 Questions the team must answer (this is the graded judgment)
+### 7.2 Questions the team must answer to turn the evidence into judgment (this is what gets graded)
 
 - **Direct answer to the RQ:** given the evidence, *how* can banks use OpenMetadata to manage security and validation risks of AI-assisted pipelines? Under what conditions does it help, and when does it not?
 - **Validation risk:** would OpenMetadata have caught the consent bug *without* someone first writing a business-rule test for it? What does that imply about who must write the tests, and whether AI can write them?

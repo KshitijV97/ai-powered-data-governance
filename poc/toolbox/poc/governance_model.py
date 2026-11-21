@@ -18,7 +18,35 @@ PURPOSE_CLASSIFICATION = "PIPEDAPurpose"
 
 
 # ---------------------------------------------------------------- recognizers
+# Tag: a label in the OpenMetadata catalogue (e.g. PIPEDA.HighRisk) that can be
+#   attached to a table or column. Tags are grouped in a classification
+#   ("PIPEDA"), and downstream policies, masking and reports key off them.
+# Recognizer: a detection rule (regex or a Presidio built-in) attached to a tag.
+#   The auto-classification agent samples each column and, if a recognizer
+#   matches with enough confidence, applies that tag automatically.
+# Together: a column such as sin_number is found and tagged HighRisk with no
+#   manual review of ~every column, so PIPEDA safeguards (4.7) can be enforced
+#   from the tag. Humans only handle mistakes (see human_in_the_loop.py).
 def _pattern(name, regex, score, context=(), target="content", threshold=0.6, desc=""):
+    """Build one custom regex recognizer in the JSON shape OpenMetadata expects.
+
+    A recognizer is a rule the auto-classification agent runs on every column;
+    when it matches, the column gets the tag the recognizer is attached to
+    (e.g. PIPEDA.HighRisk). This is how the Canada-specific detection (SIN,
+    postal code, ...) is added on top of the out-of-the-box PII recognizers.
+    The dict returned here is dropped into a tag's "recognizers" list and sent
+    to OpenMetadata by bootstrap_governance.
+
+    Arguments:
+      name       unique id; also the base for the display name and pattern name
+      regex      what to match
+      score      confidence (0-1) of a match; a weak pattern gets a low score
+      context    nearby words (e.g. "sin", "insurance") that raise the score
+      target     "content" = test the sampled cell values;
+                 "column_name" = test the column's name instead
+      threshold  minimum final confidence required before the tag is applied
+      desc       human-readable explanation (falls back to the name)
+    """
     return {
         "name": name,
         "displayName": name.replace("_", " ").title(),
@@ -27,12 +55,13 @@ def _pattern(name, regex, score, context=(), target="content", threshold=0.6, de
         "target": target,
         "confidenceThreshold": threshold,
         "recognizerConfig": {
-            "type": "pattern",
+            "type": "pattern",  # regex-based, as opposed to "predefined" (see _predefined)
             "supportedLanguage": "en",
             "patterns": [{"name": f"{name}_p", "regex": regex, "score": score}],
             "regexFlags": {
                 "dotAll": False,
                 "multiline": False,
+                # column names are matched case-insensitively (SIN == sin); cell values are not
                 "ignoreCase": target == "column_name",
             },
             "context": list(context),
@@ -41,6 +70,11 @@ def _pattern(name, regex, score, context=(), target="content", threshold=0.6, de
 
 
 def _predefined(name, cls, entities=None, context=()):
+    """Build a recognizer that reuses a built-in Presidio detector (e.g. credit cards).
+
+    Use this instead of _pattern when a well-tested detector already exists;
+    `cls` is the Presidio class name and `entities` optionally narrows its output.
+    """
     cfg = {"type": "predefined", "name": cls, "supportedLanguage": "en", "context": list(context)}
     if entities:
         cfg["supportedEntities"] = entities

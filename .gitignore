@@ -7,6 +7,7 @@ Thumbs.db
 .idea/
 *.swp
 .claude/settings.local.json
+prof-resources
 
 # --- Office lock/temp files (e.g. "~$am research...docx" while Word is open) ---
 ~$*
@@ -38,3 +39,6 @@ report/*.toc
 report/*.fls
 report/*.fdb_latexmk
 report/*.synctex.gz
+
+# --- Local drafts (kept local, not published) ---
+deliverables/proposal_draft_with_POC.*

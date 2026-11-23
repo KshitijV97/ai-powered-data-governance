@@ -3,6 +3,8 @@
 GNG/ELG 5301 team research project (University of Ottawa, Fall 2026):
 **AI-powered data governance with OpenMetadata for PIPEDA compliance in a (fictional) Canadian bank.**
 
+**🌐 Website: [kshitijv97.github.io/ai-powered-data-governance](https://kshitijv97.github.io/ai-powered-data-governance/)**, the results at a glance: classification scores, PIPEDA compliance tests, scorecard and responsible-AI disclosure.
+
 > **Research question:** How, and with what professional safeguards, can a Canadian bank use an open-source, AI-assisted metadata platform (OpenMetadata) to operationalize PIPEDA's fair information principles across its OLTP and OLAP data?
 
 The project combines a structured literature review with a reproducible proof of concept (POC). The POC builds a fictional bank, "Borealis Bank of Canada", on synthetic data, governs it with OpenMetadata 2.0.5, and measures what the AI features get right and wrong.
@@ -95,6 +97,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 | [Results and findings](docs/results.md) | Numbers from the last run, PIPEDA scorecard, product limitations found |
 | [Operations guide](docs/operations.md) | Prerequisites, configuration, commands, troubleshooting, extending, upgrading |
 | [Testing](docs/testing.md) | Unit and integration test suites, how to run them, what they check |
+| [Website](docs/website.md) | The public results page: what it shows, how it is deployed and how to keep it in sync |
 
 ### Reference
 
@@ -111,6 +114,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 | [`docs/`](docs/README.md) | Detailed documentation (listed above), with Mermaid diagrams |
 | [`poc/`](poc/README.md) | Docker proof of concept: OpenMetadata 2.0.5, the synthetic bank (OLTP + OLAP), governance automation and evaluation scripts; evidence in [`poc/results/`](poc/results/) |
 | [`references/papers/`](references/papers/README.md) | Index of the research papers cited as evidence (PDFs are kept locally, not committed) |
+| [`site/`](site/) | The [project website](https://kshitijv97.github.io/ai-powered-data-governance/), one static page published to GitHub Pages; see [Website](docs/website.md) |
 | [`tools/`](tools/) | Repository checks, such as the personal-information scan run by pre-commit and CI |
 
 ## Notes

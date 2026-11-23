@@ -135,3 +135,4 @@ The [governance model](governance-model.md#from-pipeda-to-openmetadata) shows th
 | OSFI Guideline E-23 (effective 2027) | Model-risk framing for the AI classifier |
 | FINTRAC record keeping; large cash transaction reports | Retention floor (5 years); the `fintrac_lctr_min_amount` test on the AML mart |
 
+Research papers behind these mappings are listed in the [paper index](../references/papers/README.md).

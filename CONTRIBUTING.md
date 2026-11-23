@@ -18,6 +18,8 @@ This repo follows [Conventional Commits](https://www.conventionalcommits.org/en/
 - **Body:** optional for small changes. Explain *why*, not just *what*; the diff already shows what.
 - **One logical change per commit.** Don't mix a POC code change with a documentation edit.
 - **Never commit** secrets (`poc/.env`), POC runtime state (`poc/work/`, `poc/docker-volume/`) or the downloaded paper PDFs (`references/papers/*.pdf`). `.gitignore` covers these; check `git status` before committing anyway.
+- **AI-assisted work:** if a commit was written with an AI tool, add a `Co-Authored-By:` trailer naming it. This supports the course's AI-use disclosure; see [docs/ai-use.md](docs/ai-use.md).
+- **Never commit personal information** (student numbers, personal e-mail addresses) or course materials. The repo is public: keep team-private work and course material in the git-ignored `private/` folder. The `no-personal-data` hook and the `No personal information` CI job check for this.
 
 ### Types
 

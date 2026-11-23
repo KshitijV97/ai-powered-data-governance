@@ -13,9 +13,15 @@ repos:
   - repo: local
     hooks:
       - id: unit-tests
-        name: unit tests (pytest poc/tests/unit)
-        entry: python -m pytest poc/tests/unit -q
+        name: unit tests (pytest poc/tests/unit tools/tests)
+        entry: python -m pytest poc/tests/unit tools/tests -q
         language: python
         additional_dependencies: [pytest==8.3.3]
         types: [python]          # only when a commit touches Python files
         pass_filenames: false
+
+      - id: no-personal-data
+        name: no personal information (student numbers, e-mail addresses)
+        entry: python tools/check_personal_data.py
+        language: python
+        exclude: ^tools/tests/

@@ -33,4 +33,14 @@ jobs:
           cache: pip
           cache-dependency-path: poc/requirements-dev.txt
       - run: pip install -r poc/requirements-dev.txt
-      - run: pytest poc/tests/unit
+      - run: pytest poc/tests/unit tools/tests
+
+  personal-data:
+    name: No personal information
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: git ls-files -z -- ':!tools/tests' | xargs -0 python tools/check_personal_data.py

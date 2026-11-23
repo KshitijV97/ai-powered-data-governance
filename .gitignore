@@ -29,3 +29,5 @@ venv/
 .ruff_cache/
 
 # --- LaTeX build artifacts (main.pdf stays tracked) ---
+
+# --- Course materials (instructor's copyright; keep a local copy only) ---

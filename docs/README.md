@@ -10,6 +10,7 @@ The bank is fictional and all data is synthetic.
 |---|---|
 | [How OpenMetadata uses AI and ML](openmetadata-ai-features.md) | every AI, LLM and ML feature in OpenMetadata 2.0.5, which pre-trained models and API keys each needs, and what is OSS vs. Collate-only (with sources) |
 | [PIPEDA principle mapping](pipeda-mapping.md) | for each of the ten principles: the control, where it is implemented and which evidence file proves it |
+| [Generative-AI use](ai-use.md) | the course's AI rules, how the repo enforces them, the AI-use log for the statements, and the latest audit |
 
 ### Proof of concept
 

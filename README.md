@@ -100,6 +100,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 |---|---|
 | [Glossary](docs/glossary.md) | Privacy, data and OpenMetadata terms |
 | [Paper index](references/papers/README.md) | Research papers cited as evidence and where to get each one |
+| [Generative-AI use](docs/ai-use.md) | Course AI rules, the repo's safeguards, the AI-use log and the latest audit |
 | [Contributing](CONTRIBUTING.md) | Commit message conventions and branch workflow |
 
 ## Repository layout
@@ -109,6 +110,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 | [`docs/`](docs/README.md) | Detailed documentation (listed above), with Mermaid diagrams |
 | [`poc/`](poc/README.md) | Docker proof of concept: OpenMetadata 2.0.5, the synthetic bank (OLTP + OLAP), governance automation and evaluation scripts; evidence in [`poc/results/`](poc/results/) |
 | [`references/papers/`](references/papers/README.md) | Index of the research papers cited as evidence (PDFs are kept locally, not committed) |
+| [`tools/`](tools/) | Repository checks, such as the personal-information scan run by pre-commit and CI |
 
 ## Notes
 

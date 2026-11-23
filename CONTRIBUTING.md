@@ -65,11 +65,12 @@ From then on every `git commit` runs [`.pre-commit-config.yaml`](.pre-commit-con
 
 1. `ruff check --fix` lints the staged Python files and fixes what it safely can,
 2. `ruff format` formats them,
-3. the unit tests (`pytest poc/tests/unit`) run when the commit touches any Python file.
+3. the unit tests (`pytest poc/tests/unit tools/tests`) run when the commit touches any Python file,
+4. `tools/check_personal_data.py` scans the staged files for student numbers and personal e-mail addresses.
 
 If Ruff changes a file, the commit stops: review the change, `git add` it and commit again.
 Run every hook over the whole repo with `pre-commit run --all-files`.
-CI runs the same checks (`ruff check`, `ruff format --check`, unit tests) on every push and pull request, so skipping the hook with `--no-verify` only moves the failure to CI.
+CI runs the same checks (`ruff check`, `ruff format --check`, unit tests, personal-data scan) on every push and pull request, so skipping the hook with `--no-verify` only moves the failure to CI.
 
 To leave a hand-laid-out data table alone, wrap it in `# fmt: off` / `# fmt: on` (see the lookup tables in `generate_data.py`).
 When bumping Ruff, change the version in both `poc/requirements-dev.txt` and the `rev` in `.pre-commit-config.yaml`.
@@ -121,7 +122,7 @@ gitGraph
 Under *Settings → Branches → Add branch ruleset* for `master`:
 
 - require a pull request before merging, with 1 approval,
-- require the `Lint and format` and `Unit tests` status checks to pass,
+- require the `Lint and format`, `Unit tests` and `No personal information` status checks to pass,
 - block force pushes and deletion.
 
 Under *Settings → General → Pull Requests*, tick *Automatically delete head branches*.

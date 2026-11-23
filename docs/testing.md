@@ -1,10 +1,11 @@
 # Testing
 
-The POC has two pytest suites under [`poc/tests/`](../poc/tests/). Neither needs Docker.
+The POC has two pytest suites under [`poc/tests/`](../poc/tests/), and the repository checks in [`tools/`](../tools/) have a third. None needs Docker.
 
 | Suite | Path | What it checks | Runs in CI |
 |---|---|---|---|
 | Unit | `poc/tests/unit/` | Pure functions in `poc/toolbox/poc/`: recognizer regexes, synthetic data generators, precision/recall/F1 maths, sensitivity roll-up, ground-truth labels | Yes, on every push and pull request ([`tests.yml`](../.github/workflows/tests.yml)), and in the pre-commit hook |
+| Repository tools | `tools/tests/` | [`tools/check_personal_data.py`](../tools/check_personal_data.py): student-number and e-mail detection in text and `.docx` files, allow list, exit status | Yes, with the unit tests |
 | Integration | `poc/tests/integration/` | The evidence of a completed run in `poc/results/`: F1 scores, data-quality failures, catalogue and warehouse access checks | No |
 
 These are **code tests**. They are separate from the PIPEDA data-quality tests (`p4_*`) that the POC registers in OpenMetadata: those are compliance checks on the synthetic data and are *meant* to fail on the planted defects (see [Results](results.md)).
@@ -19,10 +20,10 @@ That installs pytest, plus Ruff and pre-commit for the Git hook that runs the un
 
 ## Running
 
-Unit tests only (what CI runs):
+Unit and repository-tool tests (what CI runs):
 
 ```bash
-pytest poc/tests/unit
+pytest poc/tests/unit tools/tests
 ```
 
 Integration tests against the committed `poc/results/`:
@@ -37,7 +38,7 @@ Integration tests against another run's output, for example a fresh run you have
 POC_TEST_RESULTS_DIR=/path/to/results pytest -m integration
 ```
 
-Plain `pytest` from the repo root runs both suites ([`pytest.ini`](../pytest.ini) sets `testpaths` and registers the `integration` marker). Integration tests are skipped, not failed, when the results directory has no `summary.json`.
+Plain `pytest` from the repo root runs all three suites ([`pytest.ini`](../pytest.ini) sets `testpaths` and registers the `integration` marker). Integration tests are skipped, not failed, when the results directory has no `summary.json`.
 
 ## What the integration tests expect
 

@@ -7,7 +7,6 @@ Thumbs.db
 .idea/
 *.swp
 .claude/settings.local.json
-prof-resources
 
 # --- Office lock/temp files (e.g. "~$am research...docx" while Word is open) ---
 ~$*
@@ -29,6 +28,6 @@ venv/
 .pytest_cache/
 .ruff_cache/
 
-# --- LaTeX build artifacts (main.pdf stays tracked) ---
 
-# --- Local drafts (kept local, not published) ---
+# --- Team-private work and course material: keep it in private/, never published ---
+private/

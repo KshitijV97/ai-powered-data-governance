@@ -1,7 +1,7 @@
 # Research papers cited as evidence
 
-Full-text PDFs of the research papers evaluated in the "Sources evaluation" section of
-evidence number used in the docx (`E09` = Evidence 9).
+Full-text PDFs of the research papers evaluated during the team's source screening.
+File names start with the evidence number (`E09` = Evidence 9).
 
 Only open-access copies (publisher OA, arXiv, or the authors' institutional repository) were
 downloaded. Books, patents, legislation, regulator guidance, standards, and vendor docs

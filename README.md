@@ -57,6 +57,7 @@ flowchart TB
     DQ & Views & MCP --> Ev
 ```
 
+**Headline results:** AI auto-classification F1 rose from **0.783** out of the box to **0.943** with Canada-tuned recognizers and **1.000** after one round of steward feedback (145 columns). The PIPEDA data-quality tests caught every planted defect: 55 customers still marketed to after withdrawing consent, 38 customers kept past retention in both the OLTP and the warehouse, 1 239 stored CVVs and 17 malformed postal codes. The overall finding is that the platform works as a *supervised* control system: it is strongest at inventory, purpose and lineage, can detect consent, retention and accuracy problems but not fix them, and protects the database only when its tags are wired into enforcement. Details: [Results and findings](docs/results.md).
 
 ## Quick start
 
@@ -77,6 +78,7 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 | Page | Covers |
 |---|---|
 | [PIPEDA principle mapping](docs/pipeda-mapping.md) | Each of the ten principles → control → code → evidence file |
+| [Generative-AI use disclosure](docs/ai-use.md) | Which AI tools helped build this repository, for what, and how the output was checked |
 
 ### Proof of concept
 
@@ -109,11 +111,28 @@ The full index with diagrams is in [`docs/README.md`](docs/README.md).
 | [`docs/`](docs/README.md) | Detailed documentation (listed above), with Mermaid diagrams |
 | [`poc/`](poc/README.md) | Docker proof of concept: OpenMetadata 2.0.5, the synthetic bank (OLTP + OLAP), governance automation and evaluation scripts; evidence in [`poc/results/`](poc/results/) |
 | [`references/papers/`](references/papers/README.md) | Index of the research papers cited as evidence (PDFs are kept locally, not committed) |
+| [`tools/`](tools/) | Repository checks, such as the personal-information scan run by pre-commit and CI |
 
 ## Notes
 
 - All data is synthetic and the bank is fictional; no human-participant data is used.
 - PIPEDA mappings are the authors' reading of public guidance, not legal advice.
 
+## Generative-AI use disclosure
+
+This project was built with generative-AI assistance, and we disclose it in line with the course's responsible-AI rules.
+
+| | |
+|---|---|
+| **Tools** | Claude (Anthropic), through Claude Code. ChatGPT (OpenAI) helped the team discover candidate research sources. |
+| **When** | October 21 to November 23, 2026 |
+| **What AI helped with** | Writing and commenting the proof-of-concept code, tests, CI and tooling; drafting and editing the technical documentation; building the results website; suggesting candidate sources |
+| **What AI did not do** | Replace the team's analysis, source evaluation, professional judgement, interpretation or authorship. The team stays responsible for every claim. |
+| **How we checked it** | Code is covered by unit tests, linting and CI. The POC results come from an end-to-end run that anyone can repeat with one command. AI-suggested sources were reviewed by the team for accuracy, credibility and relevance. Changes reach `master` through reviewed pull requests ([CONTRIBUTING.md](CONTRIBUTING.md)). |
+| **Traceability** | Every AI-assisted commit carries a `Co-Authored-By:` trailer naming the tool, so `git log` shows exactly which changes AI touched. |
+
+Details, the commit-by-commit log and the safeguards are in [docs/ai-use.md](docs/ai-use.md).
+
 ## License
 
+Project-authored software and documentation are licensed under the [MIT License](LICENSE), except for files carrying their own license or attribution notices. Third-party materials, including the OpenMetadata Docker Compose file, remain under their respective terms.

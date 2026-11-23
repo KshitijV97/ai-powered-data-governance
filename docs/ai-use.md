@@ -24,7 +24,7 @@ Compiled from the `Co-Authored-By` trailers in the git history (`git log --grep=
 | Oct 25 | Inventory of OpenMetadata's AI/ML features; branching strategy and pull-request template | `docs/openmetadata-ai-features.md`, `CONTRIBUTING.md` |
 | Nov 13 | Static results website | `site/` |
 | Nov 20 | Explanatory code comments; Claude Code project instructions | `poc/`, `CLAUDE.md` |
-| Nov 23 | This disclosure and the personal-information check | `docs/ai-use.md`, `tools/` |
+| Nov 23 | This disclosure, the personal-information check and the website update | `docs/ai-use.md`, `tools/`, `site/` |
 
 ## Safeguards in this repository
 

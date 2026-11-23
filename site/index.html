@@ -8,6 +8,8 @@
 <meta property="og:title" content="AI Data Governance for PIPEDA: OpenMetadata proof of concept">
 <meta property="og:description" content="Auto-classification F1 rose from 0.783 to 1.000, compliance tests caught every planted PIPEDA defect, and catalogue policies did not reach the database. Synthetic data, fully reproducible.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://kshitijv97.github.io/ai-powered-data-governance/">
+<link rel="canonical" href="https://kshitijv97.github.io/ai-powered-data-governance/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11.5' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 :root {
@@ -204,6 +206,7 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
       <a href="#results">Results</a>
       <a href="#limits">Limitations</a>
       <a href="#takeaways">Takeaways</a>
+      <a href="#ai-use">AI use</a>
       <a href="#reproduce">Reproduce</a>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
@@ -403,14 +406,45 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
     </div>
   </section>
 
+  <section id="ai-use">
+    <div class="wrap">
+      <h2>Responsible AI use</h2>
+      <p class="sec-intro">This project was built with generative-AI assistance. We disclose it in line with the course's responsible-AI rules: AI may support the work, but it does not replace the team's analysis, source evaluation, judgement or authorship.</p>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><th scope="row">Tools</th><td>Claude (Anthropic), used through Claude Code. ChatGPT (OpenAI) helped the team discover candidate research sources.</td></tr>
+            <tr><th scope="row">When</th><td>October 21 to November 23, 2026</td></tr>
+            <tr><th scope="row">What AI helped with</th><td>Writing, testing and commenting the proof-of-concept code; CI and repository tooling; drafting and editing the technical documentation; this website; suggesting candidate sources</td></tr>
+            <tr><th scope="row">What AI did not do</th><td>Replace the team's analysis, source evaluation, professional judgement, interpretation or authorship. The team is responsible for every claim.</td></tr>
+            <tr><th scope="row">How we checked it</th><td>Unit tests, linting and CI on every push; an end-to-end run anyone can repeat; team review of AI-suggested sources; pull-request review before merging</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="findings" style="margin-top:20px">
+        <div class="finding"><div class="tag">Traceable</div><h3>Every AI-assisted commit is labelled</h3><p>Each one carries a <code>Co-Authored-By</code> line naming the tool, so the git history shows exactly which changes AI touched.</p></div>
+        <div class="finding"><div class="tag">Private</div><h3>No personal information</h3><p>A pre-commit hook and a CI job block student numbers and personal e-mail addresses from ever reaching the public repository.</p></div>
+        <div class="finding"><div class="tag">Synthetic</div><h3>No real data given to AI</h3><p>The bank is fictional and every record is generated, so no real customer's information was shared with an AI tool.</p></div>
+      </div>
+      <p class="note"><a href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/ai-use.md">Full AI-use disclosure and commit-by-commit log</a></p>
+    </div>
+  </section>
   <section id="reproduce">
     <div class="wrap">
       <h2>Reproduce it</h2>
-      <p class="sec-intro">The proof of concept runs end to end with one command. It needs Docker with about 4 GB of memory and takes around 15 minutes. Using the same seed reproduces every number on this page.</p>
+      <p class="sec-intro">The proof of concept runs end to end with one command. It needs Docker with about 4 GB of memory and takes 15 to 20 minutes. Using the same seed reproduces every number on this page.</p>
       <pre><code>git clone https://github.com/KshitijV97/ai-powered-data-governance.git
 cd ai-powered-data-governance
 poc/scripts/run_poc.sh</code></pre>
       <p class="note" style="margin-top:0">Stack: PostgreSQL 16, OpenMetadata 2.0.5, Microsoft Presidio and spaCy, Python, Docker Compose. Results are written to <code>poc/results/</code>.</p>
+      <h3 style="margin:32px 0 10px">Read the documentation</h3>
+      <div class="cta" style="margin-top:0">
+        <a class="btn" href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/architecture.md">Architecture</a>
+        <a class="btn" href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/pipeline.md">Pipeline walkthrough</a>
+        <a class="btn" href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/results.md">Results and findings</a>
+        <a class="btn" href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/pipeda-mapping.md">PIPEDA mapping</a>
+        <a class="btn" href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/operations.md">Operations guide</a>
+      </div>
     </div>
   </section>
 </main>
@@ -424,7 +458,7 @@ poc/scripts/run_poc.sh</code></pre>
       <li>Mustafa Bayirli <span>· research</span></li>
       <li>Khang Tran <span>· research</span></li>
     </ul>
-    <p style="margin-top:16px">Borealis Bank of Canada is fictional, and all data is synthetic. No human-participant data was used. Generative AI disclosure: Claude (Anthropic, via Claude Code) assisted with the code, tests, documentation and this website, and ChatGPT helped find candidate sources. AI did not replace the team's analysis or judgement, and the team reviewed all content. <a href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/docs/ai-use.md">Full AI-use disclosure</a>.</p>
+    <p style="margin-top:16px">Borealis Bank of Canada is fictional, and all data is synthetic. No human-participant data was used. Built with generative-AI assistance; see <a href="#ai-use">Responsible AI use</a>.</p>
     <p><a href="https://github.com/KshitijV97/ai-powered-data-governance">Source code on GitHub</a> · <a href="https://github.com/KshitijV97/ai-powered-data-governance/blob/master/LICENSE">License</a></p>
   </div>
 </footer>

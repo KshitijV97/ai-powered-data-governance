@@ -3,6 +3,11 @@
 # service / analyst roles used by the POC. Runs once, on first container start.
 set -euo pipefail
 
+# How: the Postgres image runs this from /docker-entrypoint-initdb.d on first start.
+# Fail fast on any error. Passwords come from container env vars, expanded by the
+# shell into the SQL heredocs below.
+
+# Step 1: from the default "postgres" DB, create both databases and all roles.
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname postgres <<-SQL
   CREATE DATABASE core_banking;
   CREATE DATABASE bank_dw;
@@ -22,9 +27,14 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname postgres <<-SQL
   CREATE ROLE fraud_analyst LOGIN PASSWORD '${ANALYST_PASSWORD}';
 SQL
 
+# Step 2: load each database's schema and seed data from its SQL file.
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname core_banking -f /docker-entrypoint-initdb.d/sql/01_core_banking_oltp.sql
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname bank_dw      -f /docker-entrypoint-initdb.d/sql/02_bank_dw_olap.sql
 
+# Step 3: per database, let om_reader and etl_service connect, then give etl_service
+# read/write on every non-system schema. A PL/pgSQL loop finds the schemas and runs
+# GRANT via format(%I) so names are quoted safely. \$\$ is escaped so the shell
+# leaves Postgres's dollar-quoting alone.
 for db in core_banking bank_dw; do
   psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$db" <<-SQL
     GRANT CONNECT ON DATABASE $db TO om_reader, etl_service;

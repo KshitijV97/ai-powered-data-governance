@@ -9,13 +9,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# What: Official OpenMetadata 2.0.5 docker compose (Postgres variant), vendored from upstream.
+# Does: Runs the full metadata catalog: DB, search, migrations, API/UI server, Airflow ingestion.
+# How: Services share the app_net network; depends_on health checks enforce start order
+#      (postgresql + elasticsearch -> execute-migrate-all -> openmetadata-server -> ingestion).
+#      Settings come from ${VAR:-default} env vars. The POC overlay is docker-compose.poc.yml.
 version: "3.9"
+# Named volumes for Airflow DAGs/tmp and Elasticsearch data.
 volumes:
   ingestion-volume-dag-airflow:
   ingestion-volume-dags:
   ingestion-volume-tmp:
   es-data:
 services:
+  # Postgres: stores OpenMetadata and Airflow data (bind-mounted to ./docker-volume).
   postgresql:
     container_name: openmetadata_postgresql
     image: docker.getcollate.io/openmetadata/postgresql:2.0.5
@@ -39,6 +46,7 @@ services:
       timeout: 10s
       retries: 10
 
+  # Elasticsearch: single-node search index for the catalog (security off, POC only).
   elasticsearch:
     container_name: openmetadata_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:9.3.0
@@ -59,6 +67,7 @@ services:
     volumes:
       - es-data:/usr/share/elasticsearch/data
 
+  # One-shot job: runs DB schema migrations, then exits. Server waits for it to succeed.
   execute-migrate-all:
     container_name: execute_migrate_all
     image: docker.getcollate.io/openmetadata/server:2.0.5
@@ -285,6 +294,7 @@ services:
     networks:
       - app_net
 
+  # Main app: REST API + UI on :8585 (admin/health on :8586). Env vars configure auth, DB, search, JWT.
   openmetadata-server:
     container_name: openmetadata_server
     restart: always
@@ -507,6 +517,7 @@ services:
     healthcheck:
       test: [ "CMD", "wget", "-q", "--spider",  "http://localhost:8586/healthcheck" ]
 
+  # Airflow (UI on :8080): runs metadata ingestion pipelines the server schedules via its REST API.
   ingestion:
     container_name: openmetadata_ingestion
     image: docker.getcollate.io/openmetadata/ingestion:2.0.5
@@ -551,6 +562,7 @@ services:
       - ingestion-volume-dags:/opt/airflow/dags
       - ingestion-volume-tmp:/tmp
 
+# Shared bridge network with a fixed subnet so services resolve each other by name.
 networks:
   app_net:
     ipam:

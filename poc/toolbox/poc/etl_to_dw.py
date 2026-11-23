@@ -1,9 +1,56 @@
-"""Batch ETL: core_banking (OLTP) -> bank_dw (OLAP star schema + marts).
+"""
+Batch ETL: copies OLTP data (core_banking) into the warehouse (bank_dw: OLAP star
+schema + marts). Its column mappings are reused later as lineage.
 
-The column mappings below are also published to OpenMetadata as column-level
-lineage (see LINEAGE in this module, used by post_ingestion.py), so the
-catalogue can answer "where did this customer's e-mail address flow to?"
-(PIPEDA Principle 4.9, Individual Access).
+How the column mappings are reused as lineage
+---------------------------------------------
+This module holds two parallel descriptions of the same data movement:
+
+1. EXTRACTS and AGGREGATES do the work. They hold the SQL that copies data, e.g.
+   `first_name || ' ' || last_name` becomes `dw.dim_customer.full_name`.
+2. LINEAGE and DW_LINEAGE only describe the work. They are plain dicts of the form
+   `target column -> [source columns]`, e.g.
+   `"full_name": ["core.customer.first_name", "core.customer.last_name"]`.
+
+The ETL never reads the second structure. `post_ingestion.py lineage` reads it
+afterwards and publishes it to OpenMetadata, so the same knowledge of which source
+column feeds which target column is not written a third time somewhere else.
+
+Caveat: LINEAGE is maintained by hand next to the SQL and nothing checks that the
+two agree. If an extract changes and the dict is not updated, the catalogue's
+lineage is silently wrong. That is acceptable for this POC; in production you would
+parse the SQL or use OpenMetadata's lineage ingestion (query logs, views).
+
+How OpenMetadata helps with lineage
+-----------------------------------
+Lineage is OpenMetadata's record of how data flows between assets: this table was
+built from those tables, by this pipeline, down to individual columns. The POC
+publishes it in three steps:
+
+1. Register the producer: a pipeline service (`borealis_batch_etl`) and a pipeline
+   entity (`nightly_oltp_to_dw`) with one task per target table.
+2. Create the edges: for each source/target table pair, `PUT /v1/lineage` records
+   "source table -> target table, via this pipeline".
+3. Add the column detail: each edge carries `columnsLineage`, a list of
+   `{fromColumns: [...], toColumn: ...}`, which makes it column-level. For example
+   `core.customer.email` maps to both `dw.dim_customer.email` and
+   `mart.marketing_campaign_audience.email`.
+
+What this gives you without more code:
+  - Graph in the UI: a table's Lineage tab shows upstream/downstream tables and,
+    when expanded, columns.
+  - Impact and root-cause analysis: if `core.customer.email` is wrong or changes,
+    see every warehouse and mart column it reaches; trace bad mart data to its source.
+  - PIPEDA Principle 4.9 (Individual Access): "where did this customer's e-mail end
+    up?" is answered by following edges from the source column, including the
+    marketing mart where the planted consent bug lives.
+  - Tag-based reasoning: PIPEDA.HighRisk / DirectIdentifier tags sit on the same
+    columns lineage connects, so you can ask whether a high-risk column leaks into
+    an analytical mart.
+  - AI/MCP access: `mcp_demo.py` calls the `get_entity_lineage` tool so an assistant
+    can answer lineage questions from the catalogue.
+
+See docs/data-model.md ("ETL and lineage") for the diagrams.
 
 Planted defect: the marketing audience extract honours `granted` but ignores
 `withdrawn_at`, so customers who withdrew consent are still e-mailed. The

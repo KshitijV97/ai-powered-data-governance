@@ -3,7 +3,7 @@
 Answers to the questions people are likely to ask about Team 2's final presentation, the research project and the proof of concept (POC).
 Every number here comes from the committed evidence in [`poc/results/`](../poc/results/) or from the sources listed at the end. The bank is fictional and all data is synthetic.
 
-Jump to: [the project](#the-project) · [method and evidence](#method-and-evidence) · [the presentation](#the-presentation) · [findings](#findings) · [the proof of concept](#the-proof-of-concept) · [responsibility and ethics](#responsibility-and-ethics) · [limits](#limits) · [sources](#sources)
+Jump to: [the project](#the-project) · [method and evidence](#method-and-evidence) · [findings](#findings) · [the proof of concept](#the-proof-of-concept) · [responsibility and ethics](#responsibility-and-ethics) · [limits](#limits) · [sources](#sources)
 
 ---
 
@@ -71,47 +71,6 @@ Ten criteria, one per risk, for example: 100% recall on high-risk columns, every
 ### Who decided which columns hold personal information?
 
 The team labelled all 145 columns by hand as high-risk identifier, direct identifier, quasi-identifier, financial or not personal. 25 columns count as positives, 7 of them high-risk. We did not use AI to label them, because the labels are the yardstick the AI is scored against. See [classification.md](classification.md#ground-truth).
-
----
-
-## The presentation
-
-### How long is it and who presents what?
-
-About 9 minutes 25 seconds, within the 10-minute limit, followed by 2 minutes of questions.
-
-| Slides | Speaker | Content |
-|---|---|---|
-| 1 to 3 | Victor Blaja | Title, opening question, the problem |
-| 4 to 5 | Khang Tran (research and verdict lead) | Research question and scope, method and evidence process |
-| 6 | Mustafa Bayirli (evidence and implications lead) | What the literature says |
-| 7 to 10 | Kshitij Vengurlekar | The POC (which he built) and its three findings |
-| 11 to 12 | Khang Tran | Answer to the research question, and how far to trust it (limitations) |
-| 13 to 15 | Mustafa Bayirli | Professional responsibility, recommendations, conclusion and discussion |
-| 16 to 17 | (appendix) | References (APA 7), AI-use disclosure |
-
-Khang and Mustafa each own an analytical part (Khang the verdict, Mustafa the literature synthesis) and a closing part. This follows the split in Victor's team draft. In Q&A, questions on the method, the answer and its limits go to Khang; the literature, responsibility and recommendations go to Mustafa.
-
-### Where do the opening statistics come from?
-
-KPMG Canada's 2025 GenAI Business Survey of Canadian financial services leaders (KPMG, 2026): over 90% see generative AI as critical to competitive advantage, 60% are upgrading core systems to embed it, 95% worry about breaches and misuse of sensitive data, and 30% cite data quality as a major barrier. KPMG's page does not publish the sample size. Respondents were mostly C-suite, VP and director-level leaders.
-
-### Is "about 40% of Copilot programs vulnerable" a fair figure?
-
-It comes from Pearce et al. (2022), who generated 1,689 programs with GitHub Copilot across 89 security-relevant scenarios and found about 40% vulnerable. It measures code written for security-sensitive tasks in a lab study, not code running in banks.
-
-### Were the TD Bank and Desjardins incidents caused by AI?
-
-No, and the slide says so. TD Bank's US subsidiary was ordered to pay about US$28 million for furnishing inaccurate account data (CFPB, 2024). At Desjardins an insider extracted data on about 9.7 million people (OPC, 2020). They show what inaccurate data and weak safeguards cost. The one AI-related case on the slide is CB Financial Services (2026): its Form 8-K reports that customer data, including Social Security numbers, was handled through an unauthorized AI application.
-
-### What is the discussion question, and what is the team's view?
-
-*When AI-generated code causes a data-security failure, who should be accountable: the developer, the organization, or both?*
-Our view, if asked: **both**. The developer owns review and testing of code they accept. The organization owns the business rules, the controls and the named accountable officer that PIPEDA principle 4.1 requires. A bank cannot tell a regulator "the AI wrote it".
-
-### Why APA citations?
-
-The course guideline asks for APA 7. The deck and the final report use the same style and the same reference list.
 
 ---
 

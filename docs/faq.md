@@ -83,11 +83,14 @@ About 9 minutes 25 seconds, within the 10-minute limit, followed by 2 minutes of
 | Slides | Speaker | Content |
 |---|---|---|
 | 1 to 3 | Victor Blaja | Title, opening question, the problem |
-| 4 to 6 | Khang Tran | Research question and scope, method, what the literature says |
+| 4 to 5 | Khang Tran (research and verdict lead) | Research question and scope, method and evidence process |
+| 6 | Mustafa Bayirli (evidence and implications lead) | What the literature says |
 | 7 to 10 | Kshitij Vengurlekar | The POC (which he built) and its three findings |
-| 11 | Khang Tran | Answer to the research question |
-| 12 to 15 | Mustafa Bayirli | Responsibility, recommendations, limitations, discussion question |
+| 11 to 12 | Khang Tran | Answer to the research question, and how far to trust it (limitations) |
+| 13 to 15 | Mustafa Bayirli | Professional responsibility, recommendations, conclusion and discussion |
 | 16 to 17 | (appendix) | References (APA 7), AI-use disclosure |
+
+Khang and Mustafa each own an analytical part (Khang the verdict, Mustafa the literature synthesis) and a closing part. This follows the split in Victor's team draft. In Q&A, questions on the method, the answer and its limits go to Khang; the literature, responsibility and recommendations go to Mustafa.
 
 ### Where do the opening statistics come from?
 

@@ -7,7 +7,7 @@ This page states which generative-AI tools helped build this repository, what th
 | | |
 |---|---|
 | **Tools** | **Claude** (Anthropic), used through **Claude Code**. **ChatGPT** (OpenAI) helped the team discover candidate research sources. |
-| **Period** | October 21 to November 23, 2026 |
+| **Period** | October 21 to November 27, 2026 |
 | **Used for** | Writing, testing and commenting the proof-of-concept code; CI, linting and repository tooling; drafting and editing the technical documentation; the results website; suggesting candidate sources |
 | **Not used for** | Replacing the team's analysis, source evaluation, professional judgement, interpretation or authorship. The team is responsible for every claim. |
 | **Checks** | Unit tests, Ruff linting and CI on every push; an end-to-end POC run that anyone can repeat (`poc/scripts/run_poc.sh`); team review of AI-suggested sources for accuracy, credibility and relevance; pull-request review before merging to `master` |
@@ -25,6 +25,7 @@ Compiled from the `Co-Authored-By` trailers in the git history (`git log --grep=
 | Nov 13 | Static results website | `site/` |
 | Nov 20 | Explanatory code comments; Claude Code project instructions | `poc/`, `CLAUDE.md` |
 | Nov 23 | This disclosure, the personal-information check and the website update | `docs/ai-use.md`, `tools/`, `site/` |
+| Nov 27 | FAQ on the final presentation, findings and POC | `docs/faq.md` |
 
 ## Safeguards in this repository
 

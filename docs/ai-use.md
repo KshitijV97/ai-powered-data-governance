@@ -25,7 +25,6 @@ Compiled from the `Co-Authored-By` trailers in the git history (`git log --grep=
 | Nov 13 | Static results website | `site/` |
 | Nov 20 | Explanatory code comments; Claude Code project instructions | `poc/`, `CLAUDE.md` |
 | Nov 23 | This disclosure, the personal-information check and the website update | `docs/ai-use.md`, `tools/`, `site/` |
-| Nov 27 | FAQ on the final presentation, findings and POC | `docs/faq.md` |
 
 ## Safeguards in this repository
 

@@ -3,7 +3,7 @@
 Technical documentation for the **Borealis Bank PIPEDA governance proof of concept** (GNG/ELG 5301, uOttawa, Fall 2026).
 The bank is fictional and all data is synthetic.
 
-The top-level [`README.md`](../README.md) gives the summary and [`poc/README.md`](../poc/README.md) the quick-start. These pages go deeper. New to the project? Start with [architecture](architecture.md), then [results](results.md).
+The top-level [`README.md`](../README.md) gives the summary and [`poc/README.md`](../poc/README.md) the quick-start. These pages go deeper. New to the project? Start with the [FAQ](faq.md), then [architecture](architecture.md) and [results](results.md).
 
 ### Research
 
@@ -12,6 +12,7 @@ The top-level [`README.md`](../README.md) gives the summary and [`poc/README.md`
 | [How OpenMetadata uses AI and ML](openmetadata-ai-features.md) | every AI, LLM and ML feature in OpenMetadata 2.0.5, which pre-trained models and API keys each needs, and what is OSS vs. Collate-only (with sources) |
 | [PIPEDA principle mapping](pipeda-mapping.md) | for each of the ten principles: the control, where it is implemented and which evidence file proves it |
 | [Generative-AI use disclosure](ai-use.md) | which AI tools helped build this repository, for what, how the output was checked, and the safeguards |
+| [FAQ](faq.md) | answers to likely questions about the final presentation, the research question, the findings and the proof of concept |
 
 ### Proof of concept
 
